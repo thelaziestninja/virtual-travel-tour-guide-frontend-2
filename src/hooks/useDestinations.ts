@@ -1,26 +1,12 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import { getDestinations } from "../services/api";
 import { Destination } from "../utils/types";
 
-export const useDestinations = () => {
-  const [destinations, setDestinations] = useState<Destination[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchDestinations = async () => {
-      try {
-        const data = await getDestinations();
-        console.log(data); 
-        setDestinations(data);
-      } catch (e) {
-        console.error("Failed to fetch destinations:", e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDestinations();
-  }, []);
-
-  return { destinations, loading };
+export const useDestinations = () => {          // returns the data property fron tghe Axios response, rathr than the whole response.
+  return useQuery<Destination[], Error>("destinations", async () => {
+    const response = await getDestinations();
+    return response.data;
+  });
 };
+
+export const useDestinationById = () => {};

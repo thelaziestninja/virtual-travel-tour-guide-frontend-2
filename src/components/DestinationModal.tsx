@@ -5,13 +5,13 @@ import { useFeedbacks } from "../hooks/useFeedbacks";
 
 type DestinationModalProps = {
   destination: Destination | null;
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
 };
 
 const DestinationModal: React.FC<DestinationModalProps> = ({
   destination,
-  visible,
+  open,
   onClose,
 }) => {
   const { feedbacks, loading } = useFeedbacks(
@@ -20,7 +20,7 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
 
   return (
     <Modal
-      visible={visible}
+      open={open}
       onCancel={onClose}
       title={destination?.name || "Destination Details"}
     >
