@@ -10,6 +10,7 @@ export const useDestinations = () => {
     const fetchDestinations = async () => {
       try {
         const data = await getDestinations();
+        console.log(data); 
         setDestinations(data);
       } catch (e) {
         console.error("Failed to fetch destinations:", e);
