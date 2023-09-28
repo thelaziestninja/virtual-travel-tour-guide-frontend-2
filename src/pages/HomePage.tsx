@@ -1,32 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
+import { Destination } from "../utils/types";
 import { useDestinations } from "../hooks/useDestinations";
+import DestinationModal from "../components/DestinationModal";
 
 const HomePage: React.FC = () => {
   const { destinations, loading } = useDestinations();
+
+  const [selectedDestination, setSelectedDestination] =
+    useState<Destination | null>(null);
+
+  const handleDestinationClick = (destination: Destination) => {
+    setSelectedDestination(destination);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedDestination(null);
+  };
 
   return (
     <div>
       <h2>Destinations</h2>
       {loading ? (
-        // Show a loading indicator while the destinations are being fetched
         <p>Loading...</p>
       ) : (
-        // Map over each destination and render its details on the page
         <ul>
           {destinations.map((destination) => (
-            <li key={destination._id}>
+            <li
+              key={destination._id}
+              onClick={() => handleDestinationClick(destination)}
+            >
               <h3>{destination.name}</h3>
-              <p>{destination.description}</p>
-              <p>Country: {destination.country}</p>
-              <p>Best time to visit: {destination.best_time_to_visit}</p>
-              {/* Optionally display the image if it exists */}
-              {destination.image_url && (
-                <img src={destination.image_url} alt={destination.name} />
-              )}
+              {/* Other destination details omitted for brevity */}
             </li>
           ))}
         </ul>
       )}
+      <DestinationModal
+        destination={selectedDestination}
+        visible={!!selectedDestination}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 };
