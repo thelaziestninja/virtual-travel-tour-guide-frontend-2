@@ -31,12 +31,19 @@ const HomePage: React.FC = () => {
       <ul>
         {destinations &&
           destinations.map((destination) => (
-            <li
-              key={destination._id}
-              onClick={() => handleDestinationClick(destination)}
-            >
-              <h3>{destination.name}</h3>
-              
+            <li key={destination._id}>
+              {destination.image_url && destination.image_url.length > 0 ? (
+                <img
+                  src={destination.image_url[0]}
+                  alt={destination.name}
+                  style={{ width: '50px', height: '50px' }} // Adjust dimensions as needed
+                  onClick={() => handleDestinationClick(destination)}  // Moved onClick here
+                />
+              ) : (
+                <h3 onClick={() => handleDestinationClick(destination)}>
+                  {destination.name}
+                </h3>  // If you want the name to be clickable as well
+              )}
             </li>
           ))}
       </ul>
