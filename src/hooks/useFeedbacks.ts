@@ -1,32 +1,21 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import { getFeedbacks } from "../services/api";
 import { Feedback } from "../utils/types";
 
-export const useFeedbacks = (destinationId?: string) => {
-  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchFeedbacks = async () => {
+export const useFeedbacks = (destinationId: string | undefined) => {  // Make destinationId optional
+  return useQuery<Feedback[], Error>(
+    ["feedbacks", destinationId], 
+    async () => {
       if (!destinationId) {
-        // If destinationId is undefined, do nothing.
-        setLoading(false);
-        return;
+        // Return an empty array if destinationId is undefined
+        return [];
       }
-
-      try {
-        const data = await getFeedbacks(destinationId);
-        setFeedbacks(data);
-      } catch (e) {
-        console.error("Failed to fetch feedbacks:", e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFeedbacks();
-  }, [destinationId]);
-
-  return { feedbacks, loading };
+      const response = await getFeedbacks(destinationId);
+      return response.data;
+    },
+    {
+      enabled: !!destinationId,  // Only run the query if destinationId is defined
+    }
+  );
 };
 

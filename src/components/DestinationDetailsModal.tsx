@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "antd"; // Importing Modal from antd
-import { Destination } from "../utils/types";
+import { Destination, Feedback } from "../utils/types";
 import { useFeedbacks } from "../hooks/useFeedbacks";
 
 type DestinationModalProps = {
@@ -14,17 +14,17 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
   open,
   onClose,
 }) => {
-  const { feedbacks, loading } = useFeedbacks(
+  const { data: feedbacks, isLoading } = useFeedbacks(
     destination ? destination._id : undefined
   );
 
   return (
     <Modal
-      open={open}
+      open={open} // Changed open to visible
       onCancel={onClose}
       title={destination?.name || "Destination Details"}
     >
-      {loading ? (
+      {isLoading ? (
         <p>Loading...</p>
       ) : (
         <>
@@ -33,12 +33,16 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
           <p>Best time to visit: {destination?.best_time_to_visit}</p>
           <h3>Feedbacks:</h3>
           <ul>
-            {feedbacks.map((feedback) => (
-              <li key={feedback._id}>
-                {feedback.feedback_text} - {feedback.left_by} on{" "}
-                {new Date(feedback.feedback_date).toLocaleDateString()}
-              </li>
-            ))}
+            {feedbacks ? (
+              feedbacks.map((feedback: Feedback) => (
+                <li key={feedback._id}>
+                  {feedback.feedback_text} - {feedback.left_by} on{" "}
+                  {new Date(feedback.feedback_date).toLocaleDateString()}
+                </li>
+              ))
+            ) : (
+              <p>No feedback available for this destination.</p>
+            )}
           </ul>
         </>
       )}
