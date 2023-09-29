@@ -20,9 +20,10 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
 
   return (
     <Modal
-      open={open} // Changed open to visible
+      open={open}
       onCancel={onClose}
       title={destination?.name || "Destination Details"}
+      footer={null}
     >
       {isLoading ? (
         <p>Loading...</p>
@@ -31,9 +32,9 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
           <p>{destination?.description}</p>
           <p>Country: {destination?.country}</p>
           <p>Best time to visit: {destination?.best_time_to_visit}</p>
-          <h3>Feedbacks:</h3>
+          <h3>Feedback:</h3>
           <ul>
-            {feedbacks ? (
+            {feedbacks && feedbacks.length > 0 ?(
               feedbacks.map((feedback: Feedback) => (
                 <li key={feedback._id}>
                   {feedback.feedback_text} - {feedback.left_by} on{" "}

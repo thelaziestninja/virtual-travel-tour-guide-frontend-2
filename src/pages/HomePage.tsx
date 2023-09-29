@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Destination } from "../utils/types";
 import { useDestinations } from "../hooks/useDestinations";
-import DestinationModal from "../components/DestinationModal";
+import DestinationModal from "../components/DestinationDetailsModal";
 
 const HomePage: React.FC = () => {
   const { data: destinations, error, isLoading } = useDestinations();
@@ -25,19 +25,20 @@ const HomePage: React.FC = () => {
     return <div>An error occurred: {error.message}</div>;
   }
 
-  return  (
+  return (
     <div>
       <h2>Destinations</h2>
       <ul>
-        {destinations && destinations.map((destination) => (
-          <li
-            key={destination._id}
-            onClick={() => handleDestinationClick(destination)}
-          >
-            <h3>{destination.name}</h3>
-            {/* Other destination details omitted for brevity */}
-          </li>
-        ))}
+        {destinations &&
+          destinations.map((destination) => (
+            <li
+              key={destination._id}
+              onClick={() => handleDestinationClick(destination)}
+            >
+              <h3>{destination.name}</h3>
+              
+            </li>
+          ))}
       </ul>
       <DestinationModal
         destination={selectedDestination}
