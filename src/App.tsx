@@ -8,7 +8,6 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <>
-        <h1>Test</h1>
         <HomePage />
       </>
     </QueryClientProvider>
