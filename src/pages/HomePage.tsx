@@ -36,13 +36,13 @@ const HomePage: React.FC = () => {
                 <img
                   src={destination.image_url[0]}
                   alt={destination.name}
-                  style={{ width: '50px', height: '50px' }} // Adjust dimensions as needed
-                  onClick={() => handleDestinationClick(destination)}  // Moved onClick here
+                  style={{ width: "300px", height: "250px" }}
+                  onClick={() => handleDestinationClick(destination)}
                 />
               ) : (
                 <h3 onClick={() => handleDestinationClick(destination)}>
                   {destination.name}
-                </h3>  // If you want the name to be clickable as well
+                </h3>
               )}
             </li>
           ))}
