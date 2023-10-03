@@ -1,4 +1,4 @@
-import { Button, Layout } from "antd";
+import { Button, Layout, Row, Col, Space } from "antd";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Destination } from "../utils/types";
@@ -6,14 +6,15 @@ import SearchBar from "../components/SearchBar";
 import { useDestinations } from "../hooks/useDestinations";
 import DestinationModal from "../components/DestinationDetailsModal";
 import { HomeOutlined } from "@ant-design/icons";
+import DestinationCard from "../components/DestinationCard";
 
 const { Header, Content } = Layout;
 
 const HomePage: React.FC = () => {
   const { data: destinations, error, isLoading } = useDestinations();
 
-  const [searchParams, setSearchParams] = useSearchParams({q: ''})
-  const q = searchParams.get("q")
+  const [searchParams, setSearchParams] = useSearchParams({ q: "" });
+  const q = searchParams.get("q");
 
   const [selectedDestination, setSelectedDestination] =
     useState<Destination | null>(null);
@@ -57,9 +58,9 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   const navigateHome = () => {
-    setSearchParams({ q: '' })
+    setSearchParams({ q: "" });
     setFilteredDestinations(destinations || []);
-    navigate('/');
+    navigate("/");
   };
 
   if (isLoading) {
@@ -91,35 +92,39 @@ const HomePage: React.FC = () => {
           <SearchBar
             destinations={destinations || []}
             onSearch={handleSearch}
-            value={q || ''}
+            value={q || ""}
           />
         </div>
       </Header>
-      <Content style={{ padding: "0 50px" }}>
-        <h2>Destinations</h2>
-        <ul>
+      <Content style={{ padding: "0 150px" , overflow : "none"}}>
+        <Space
+          direction="vertical"
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100px",
+          }}
+        >
+          <h2>Destinations</h2>
+        </Space>
+        <Row gutter={[16, 16]}>
           {filteredDestinations &&
             filteredDestinations.map((destination) => (
-              <li key={destination._id}>
-                {destination.image_url && destination.image_url.length > 0 ? (
-                  <img
-                    src={destination.image_url[0]}
-                    alt={destination.name}
-                    style={{ width: "300px", height: "250px" }}
-                    onClick={() => handleDestinationClick(destination)}
-                  />
-                ) : (
-                  <h3 onClick={() => handleDestinationClick(destination)}>
-                    {destination.name}
-                  </h3>
-                )}
-              </li>
+              <Col key={destination._id} span={6}>
+                <DestinationCard
+                  destination={destination}
+                  onClick={() => handleDestinationClick(destination)}
+                />
+              </Col>
             ))}
-        </ul>
+        </Row>
         <DestinationModal
           destination={selectedDestination}
           open={!!selectedDestination}
           onClose={handleCloseModal}
+          bodyStyle={{ overflow: 'auto' }}
         />
       </Content>
     </Layout>

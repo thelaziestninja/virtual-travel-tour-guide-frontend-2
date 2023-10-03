@@ -7,12 +7,14 @@ type DestinationModalProps = {
   destination: Destination | null;
   open: boolean;
   onClose: () => void;
+  bodyStyle?: React.CSSProperties
 };
 
 const DestinationModal: React.FC<DestinationModalProps> = ({
   destination,
   open,
   onClose,
+  bodyStyle  
 }) => {
   const { data: feedbacks, isLoading } = useFeedbacks(
     destination ? destination._id : undefined
@@ -24,6 +26,7 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
       onCancel={onClose}
       title={destination?.name || "Destination Details"}
       footer={null}
+      bodyStyle={bodyStyle}
     >
       {isLoading ? (
         <p>Loading...</p>

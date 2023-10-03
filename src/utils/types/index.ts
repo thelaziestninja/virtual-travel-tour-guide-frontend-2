@@ -4,7 +4,7 @@ export interface Destination {
   _id: ObjectId;
   name: string;
   description: string;
-  image_url?: string;
+  image_url?: string[];
   country: string;
   best_time_to_visit: string;
 }
