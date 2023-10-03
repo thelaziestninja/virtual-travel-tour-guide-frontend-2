@@ -1,9 +1,11 @@
-import { Layout } from "antd";
+import { Button, Layout } from "antd";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Destination } from "../utils/types";
 import SearchBar from "../components/SearchBar";
 import { useDestinations } from "../hooks/useDestinations";
 import DestinationModal from "../components/DestinationDetailsModal";
+import { HomeOutlined } from "@ant-design/icons";
 
 const { Header, Content } = Layout;
 
@@ -48,6 +50,13 @@ const HomePage: React.FC = () => {
     setFilteredDestinations(destinations || []);
   }, [destinations]);
 
+  const navigate = useNavigate();
+
+  const navigateHome = () => {
+    setFilteredDestinations(destinations || []);
+    navigate('/');
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -57,18 +66,28 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <Layout>
+    <Layout style={{ background: "none" }}>
       <Header
         style={{
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
           alignItems: "center",
           borderBottom: "none",
           background: "transparent",
-          padding: 0,
+          padding: "0 50px",
         }}
       >
-        <SearchBar destinations={destinations || []} onSearch={handleSearch} />
+        <div style={{ flex: "none" }}>
+          <Button type="primary" icon={<HomeOutlined />} onClick={navigateHome}>
+            Home
+          </Button>
+        </div>
+        <div style={{ flex: "none" }}>
+          <SearchBar
+            destinations={destinations || []}
+            onSearch={handleSearch}
+          />
+        </div>
       </Header>
       <Content style={{ padding: "0 50px" }}>
         <h2>Destinations</h2>
