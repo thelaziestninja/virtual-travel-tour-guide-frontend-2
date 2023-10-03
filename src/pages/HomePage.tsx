@@ -1,6 +1,6 @@
 import { Button, Layout } from "antd";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Destination } from "../utils/types";
 import SearchBar from "../components/SearchBar";
 import { useDestinations } from "../hooks/useDestinations";
@@ -11,6 +11,9 @@ const { Header, Content } = Layout;
 
 const HomePage: React.FC = () => {
   const { data: destinations, error, isLoading } = useDestinations();
+
+  const [searchParams, setSearchParams] = useSearchParams({q: ''})
+  const q = searchParams.get("q")
 
   const [selectedDestination, setSelectedDestination] =
     useState<Destination | null>(null);
@@ -28,6 +31,7 @@ const HomePage: React.FC = () => {
   };
 
   const handleSearch = (value: string) => {
+    setSearchParams({ q: value });
     if (value) {
       const lowercasedValue = value.toLowerCase();
       const newFilteredDestinations = destinations?.filter((destination) => {
@@ -53,6 +57,7 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   const navigateHome = () => {
+    setSearchParams({ q: '' })
     setFilteredDestinations(destinations || []);
     navigate('/');
   };
@@ -86,6 +91,7 @@ const HomePage: React.FC = () => {
           <SearchBar
             destinations={destinations || []}
             onSearch={handleSearch}
+            value={q || ''}
           />
         </div>
       </Header>

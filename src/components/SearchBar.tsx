@@ -1,17 +1,24 @@
 // src/components/SearchBar.tsx
-import React, { useState } from 'react';
-import { AutoComplete, Input } from 'antd';
-import { Destination } from '../utils/types';
+import React, { useState } from "react";
+import { AutoComplete, Input } from "antd";
+import { Destination } from "../utils/types";
 
 type SearchBarProps = {
   destinations: Destination[];
   onSearch: (value: string) => void;
+  value: string;
 };
 
-const SearchBar: React.FC<SearchBarProps> = ({ destinations, onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+  destinations,
+  onSearch,
+  value,
+}) => {
   const [searchOptions, setSearchOptions] = useState<string[]>([]);
 
   const handleSearch = (value: string) => {
+    onSearch(value)
+    
     if (value) {
       const newOptions = destinations
         .filter(
@@ -33,7 +40,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ destinations, onSearch }) => {
 
   return (
     <AutoComplete
-      options={searchOptions.map(option => ({ value: option }))}
+      value={value}
+      options={searchOptions.map((option) => ({ value: option }))}
       onSelect={onSelect}
       onSearch={handleSearch}
       style={{ width: 200 }}
