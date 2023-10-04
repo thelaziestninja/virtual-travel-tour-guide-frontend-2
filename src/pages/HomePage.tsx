@@ -96,7 +96,7 @@ const HomePage: React.FC = () => {
           />
         </div>
       </Header>
-      <Content style={{ padding: "0 150px" , overflow : "none"}}>
+      <Content style={{ padding: "0 150px" }}>
         <Space
           direction="vertical"
           style={{
@@ -124,7 +124,7 @@ const HomePage: React.FC = () => {
           destination={selectedDestination}
           open={!!selectedDestination}
           onClose={handleCloseModal}
-          bodyStyle={{ overflow: 'auto' }}
+          bodyStyle={{ overflow: "auto" }}
         />
       </Content>
     </Layout>

@@ -1,5 +1,4 @@
 type ObjectId = string;
-
 export interface Destination {
   _id: ObjectId;
   name: string;
@@ -9,6 +8,7 @@ export interface Destination {
   best_time_to_visit: string;
 }
 
+export type DestinationFormValues = Omit<Destination, '_id'>;
 
 export interface Feedback {
   _id: ObjectId;

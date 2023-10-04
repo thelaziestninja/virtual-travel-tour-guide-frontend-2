@@ -4,7 +4,7 @@ import {
   getDestinationById,
   getDestinations,
 } from "../services/api";
-import { Destination } from "../utils/types";
+import { Destination, DestinationFormValues } from "../utils/types";
 
 export const useDestinations = () => {
   // returns the data property fron tghe Axios response, rather than the whole response.
@@ -22,7 +22,7 @@ export const useDestinationById = (id: string) => {
 };
 
 export const useCreateDestination = () => {
-  return useMutation((newDestination: Destination) =>
-    createDestination(newDestination)
+  return useMutation((newDestination: DestinationFormValues) =>
+    createDestination(newDestination as unknown as Destination)
   );
 };
