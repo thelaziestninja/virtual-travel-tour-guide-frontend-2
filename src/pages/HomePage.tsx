@@ -1,27 +1,30 @@
-import { Button, Layout, Row, Col, Space, Spin } from "antd";
-import React, { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import React, { useState } from "react";
 import { Destination } from "../utils/types";
 import SearchBar from "../components/SearchBar";
-import { useDestinations } from "../hooks/useDestinations";
-import DestinationModal from "../components/DestinationDetailsModal";
 import { HomeOutlined } from "@ant-design/icons";
+import { useSearchFilter } from "../hooks/useSearchFilter";
+import { useDestinations } from "../hooks/useDestinations";
 import DestinationCard from "../components/DestinationCard";
+import { Button, Layout, Row, Col, Space, Spin } from "antd";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import DestinationModal from "../components/DestinationDetailsModal";
 
 const { Header, Content } = Layout;
 
 const HomePage: React.FC = () => {
-  const { data: destinations, error, isLoading } = useDestinations();
+  const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams({ q: "" });
-  const q = searchParams.get("q");
 
   const [selectedDestination, setSelectedDestination] =
     useState<Destination | null>(null);
 
-  const [filteredDestinations, setFilteredDestinations] = useState<
-    Destination[] | null
-  >(null);
+  const { data: destinations, error, isLoading } = useDestinations();
+
+  const { query, setQuery, filteredDestinations } = useSearchFilter(
+    destinations,
+    searchParams.get("q") || ""
+  );
 
   const handleDestinationClick = (destination: Destination) => {
     setSelectedDestination(destination);
@@ -32,34 +35,13 @@ const HomePage: React.FC = () => {
   };
 
   const handleSearch = (value: string) => {
-    setSearchParams({ q: value });
-    if (value) {
-      const lowercasedValue = value.toLowerCase();
-      const newFilteredDestinations = destinations?.filter((destination) => {
-        const nameStartsWithValue = destination.name
-          .toLowerCase()
-          .startsWith(lowercasedValue);
-        const countryStartsWithValue = destination.country
-          .toLowerCase()
-          .startsWith(lowercasedValue);
-
-        return nameStartsWithValue || countryStartsWithValue;
-      });
-      setFilteredDestinations(newFilteredDestinations || []);
-    } else {
-      setFilteredDestinations(destinations || []);
-    }
+    setQuery(value);
+    setSearchParams(new URLSearchParams({ q: value }));
   };
-
-  useEffect(() => {
-    setFilteredDestinations(destinations || []);
-  }, [destinations]);
-
-  const navigate = useNavigate();
 
   const navigateHome = () => {
     setSearchParams({ q: "" });
-    setFilteredDestinations(destinations || []);
+    setQuery("");
     navigate("/");
   };
 
@@ -103,7 +85,7 @@ const HomePage: React.FC = () => {
           <SearchBar
             destinations={destinations || []}
             onSearch={handleSearch}
-            value={q || ""}
+            value={query || ""}
           />
         </div>
       </Header>
