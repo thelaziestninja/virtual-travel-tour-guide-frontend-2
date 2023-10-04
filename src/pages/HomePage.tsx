@@ -1,4 +1,4 @@
-import { Button, Layout, Row, Col, Space } from "antd";
+import { Button, Layout, Row, Col, Space, Spin } from "antd";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Destination } from "../utils/types";
@@ -64,7 +64,18 @@ const HomePage: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
   }
 
   if (error) {
