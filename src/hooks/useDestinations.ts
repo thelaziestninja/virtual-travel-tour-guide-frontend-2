@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
   createDestination,
   getDestinationById,
@@ -22,17 +22,15 @@ export const useDestinationById = (id: string) => {
 };
 
 export const useCreateDestination = () => {
-  return useMutation((newDestination: DestinationFormValues) => {
-    console.log('newDestination:', newDestination);
-    return createDestination(newDestination)
-      .then(response => {
-        console.log('Response:', response);
-        return response;
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        throw error;
-      });
-  });
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (newDestination: DestinationFormValues) => createDestination(newDestination),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('destinations');
+      },
+    }
+  );
 };
 
