@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal } from "antd"; // Importing Modal from antd
+import { Modal } from "antd";
 import { Destination, Feedback } from "../utils/types";
 import { useFeedbacks } from "../hooks/useFeedbacks";
 
@@ -22,6 +22,14 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
     destination ? destination._id : undefined
   );
 
+  const latestFeedbacks = feedbacks
+    ?.sort(
+      (a, b) =>
+        new Date(b.feedback_date).getTime() -
+        new Date(a.feedback_date).getTime()
+    )
+    .slice(0, 3);
+
   return (
     <Modal
       open={open}
@@ -39,8 +47,8 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
           <p>Best time to visit: {destination?.best_time_to_visit}</p>
           <h3>Feedback:</h3>
           <ul>
-            {feedbacks && feedbacks.length > 0 ? (
-              feedbacks.map((feedback: Feedback) => (
+            {latestFeedbacks && latestFeedbacks.length > 0 ? (
+              latestFeedbacks.map((feedback: Feedback) => (
                 <li key={feedback._id}>
                   {feedback.feedback_text} - {feedback.left_by} on{" "}
                   {new Date(feedback.feedback_date).toLocaleDateString()}

@@ -1,9 +1,18 @@
 import React, { useState } from "react";
 import AppHeader from "../components/Header";
-import { Layout, Space, Typography, Card, List, Input, Button, Checkbox } from "antd";
-import { useCreateFeedback, useFeedbacks } from "../hooks/useFeedbacks";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDestinationById } from "../hooks/useDestinations";
+import { useCreateFeedback, useFeedbacks } from "../hooks/useFeedbacks";
+import {
+  Layout,
+  Space,
+  Typography,
+  Card,
+  List,
+  Input,
+  Button,
+  Checkbox,
+} from "antd";
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -24,10 +33,10 @@ const DestinationPage: React.FC = () => {
     isLoading: isLoadingFeedbacks,
     error: feedbacksError,
   } = useFeedbacks(id);
-  
+
   const navigate = useNavigate();
   const mutation = useCreateFeedback(id);
-  
+
   const handleHomeClick = () => {
     navigate("/");
   };
@@ -37,27 +46,15 @@ const DestinationPage: React.FC = () => {
       try {
         await mutation.mutateAsync({
           feedback_text: newFeedback,
-          left_by: isAnonymous ? "Anonymous" : leftBy
+          left_by: isAnonymous ? "Anonymous" : leftBy,
         });
-        setNewFeedback(""); // Clear the input after successfully submitting
-        setLeftBy(""); // Clear the name input as well
+        setNewFeedback("");
+        setLeftBy("");
       } catch (error) {
         console.error("Error submitting feedback:", error);
       }
     }
   };
-
-  //   const getDestinationId = (name: string) => {
-  //     const destination = destinations.find(dest => dest.name === name);
-  //     return destination?.id;
-  // }
-
-  //   const handleSearch = (value: string) => {
-  //     // Assuming there's a destination name to id mapping function
-  //     // replace `getDestinationId` with your actual function to get the destination id by name
-  //     const destinationId = getDestinationId(value);
-  //     navigate(`/destination/${destinationId}`);
-  //   };
 
   const sortedFeedbacks = feedbacks
     ?.slice()
@@ -127,30 +124,34 @@ const DestinationPage: React.FC = () => {
               >
                 {/* Feedback input box */}
                 <div style={{ marginBottom: "10px" }}>
-      <Checkbox
-        checked={isAnonymous}
-        onChange={e => setIsAnonymous(e.target.checked)}
-      >
-        Anonymous
-      </Checkbox>
-      {!isAnonymous && (
-        <Input
-          value={leftBy}
-          onChange={e => setLeftBy(e.target.value)}
-          placeholder="Your name/nickname"
-          style={{ marginRight: "10px", marginTop: "10px" }}
-        />
-      )}
-      <Input
-        value={newFeedback}
-        onChange={e => setNewFeedback(e.target.value)}
-        placeholder="Share your feedback..."
-        style={{ marginRight: "10px", marginTop: "10px", width: "83%" }}
-      />
-      <Button type="primary" onClick={handleSubmitFeedback}>
-        Submit
-      </Button>
-    </div>
+                  <Checkbox
+                    checked={isAnonymous}
+                    onChange={(e) => setIsAnonymous(e.target.checked)}
+                  >
+                    Anonymous
+                  </Checkbox>
+                  {!isAnonymous && (
+                    <Input
+                      value={leftBy}
+                      onChange={(e) => setLeftBy(e.target.value)}
+                      placeholder="Your name/nickname"
+                      style={{ marginRight: "10px", marginTop: "10px" }}
+                    />
+                  )}
+                  <Input
+                    value={newFeedback}
+                    onChange={(e) => setNewFeedback(e.target.value)}
+                    placeholder="Share your feedback..."
+                    style={{
+                      marginRight: "10px",
+                      marginTop: "10px",
+                      width: "83%",
+                    }}
+                  />
+                  <Button type="primary" onClick={handleSubmitFeedback}>
+                    Submit
+                  </Button>
+                </div>
                 {sortedFeedbacks && sortedFeedbacks.length > 0 ? (
                   <List
                     itemLayout="horizontal"
