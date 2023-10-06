@@ -1,6 +1,5 @@
 type ObjectId = string;
 export interface Destination {
-  _id: ObjectId;
   name: string;
   description: string;
   image_url?: string[];

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Destination } from "../utils/types";
 import SearchBar from "../components/SearchBar";
+import { PlusOutlined } from "@ant-design/icons";
 import { HomeOutlined } from "@ant-design/icons";
 import { useSearchFilter } from "../hooks/useSearchFilter";
 import { useDestinations } from "../hooks/useDestinations";
@@ -8,6 +9,7 @@ import DestinationCard from "../components/DestinationCard";
 import { Button, Layout, Row, Col, Space, Spin } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DestinationModal from "../components/DestinationDetailsModal";
+import AddDestination from "../components/AddDestination";
 
 const { Header, Content } = Layout;
 
@@ -18,6 +20,9 @@ const HomePage: React.FC = () => {
 
   const [selectedDestination, setSelectedDestination] =
     useState<Destination | null>(null);
+
+  const [isAddDestinationVisible, setIsAddDestinationVisible] =
+    useState<boolean>(false);
 
   const { data: destinations, error, isLoading } = useDestinations();
 
@@ -32,6 +37,14 @@ const HomePage: React.FC = () => {
 
   const handleCloseModal = () => {
     setSelectedDestination(null);
+  };
+
+  const handleOpenAddDestinationModal = () => {
+    setIsAddDestinationVisible(true);
+  };
+
+  const handleCloseAddDestinationModal = () => {
+    setIsAddDestinationVisible(false);
   };
 
   const handleSearch = (value: string) => {
@@ -104,8 +117,8 @@ const HomePage: React.FC = () => {
         </Space>
         <Row gutter={[16, 16]}>
           {filteredDestinations &&
-            filteredDestinations.map((destination) => (
-              <Col key={destination._id} span={6}>
+            filteredDestinations.map((destination, index) => (
+              <Col key={index} span={6}>
                 <DestinationCard
                   destination={destination}
                   onClick={() => handleDestinationClick(destination)}
@@ -118,6 +131,23 @@ const HomePage: React.FC = () => {
           open={!!selectedDestination}
           onClose={handleCloseModal}
           bodyStyle={{ overflow: "auto" }}
+        />
+        <Button
+          type="primary"
+          shape="circle"
+          icon={<PlusOutlined />}
+          size="large"
+          onClick={handleOpenAddDestinationModal}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            zIndex: 1000, // Ensure the button is above other elements
+          }}
+        />
+        <AddDestination
+          visible={isAddDestinationVisible}
+          onClose={handleCloseAddDestinationModal}
         />
       </Content>
     </Layout>

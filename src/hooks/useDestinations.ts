@@ -22,7 +22,17 @@ export const useDestinationById = (id: string) => {
 };
 
 export const useCreateDestination = () => {
-  return useMutation((newDestination: DestinationFormValues) =>
-    createDestination(newDestination as unknown as Destination)
-  );
+  return useMutation((newDestination: DestinationFormValues) => {
+    console.log('newDestination:', newDestination);
+    return createDestination(newDestination)
+      .then(response => {
+        console.log('Response:', response);
+        return response;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        throw error;
+      });
+  });
 };
+
