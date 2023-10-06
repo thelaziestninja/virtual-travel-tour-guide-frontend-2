@@ -1,4 +1,3 @@
-// src/components/SearchBar.tsx
 import React, { useState } from "react";
 import { AutoComplete, Input } from "antd";
 import { Destination } from "../utils/types";
