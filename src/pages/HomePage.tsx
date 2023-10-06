@@ -1,14 +1,14 @@
 import React, { useState } from "react";
+import AppHeader from "../components/Header";
 import { Destination } from "../utils/types";
+import { PlusOutlined } from "@ant-design/icons";
 import AddDestination from "../components/AddDestination";
 import { useSearchFilter } from "../hooks/useSearchFilter";
 import { useDestinations } from "../hooks/useDestinations";
 import DestinationCard from "../components/DestinationCard";
 import { Button, Layout, Row, Col, Space, Spin } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DestinationModal from "../components/DestinationDetailsModal";
-import AppHeader from "../components/Header";
 
 const { Content } = Layout;
 
@@ -46,6 +46,10 @@ const HomePage: React.FC = () => {
     setIsAddDestinationVisible(false);
   };
 
+  const handleViewMoreClick = (destination: Destination) => {
+    navigate(`/destination/${destination._id}`);
+  };
+
   const handleSearch = (value: string) => {
     setQuery(value);
     setSearchParams(new URLSearchParams({ q: value }));
@@ -78,7 +82,11 @@ const HomePage: React.FC = () => {
 
   return (
     <Layout style={{ background: "none" }}>
-      <AppHeader onHomeClick={navigateHome} onSearch={handleSearch} query={query} /> 
+      <AppHeader
+        onHomeClick={navigateHome}
+        onSearch={handleSearch}
+        query={query}
+      />
       <Content style={{ padding: "0 150px" }}>
         <Space
           direction="vertical"
@@ -108,6 +116,7 @@ const HomePage: React.FC = () => {
           open={!!selectedDestination}
           onClose={handleCloseModal}
           bodyStyle={{ overflow: "auto" }}
+          onViewMoreClick={handleViewMoreClick}
         />
         <Button
           type="primary"

@@ -7,6 +7,7 @@ import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 type AddDestinationProps = {
   visible: boolean;
   onClose: () => void;
+  
 };
 interface AxiosError extends Error {
   response: {

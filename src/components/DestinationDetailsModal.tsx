@@ -7,14 +7,16 @@ type DestinationModalProps = {
   destination: Destination | null;
   open: boolean;
   onClose: () => void;
-  bodyStyle?: React.CSSProperties
+  bodyStyle?: React.CSSProperties;
+  onViewMoreClick: (destination: Destination) => void;
 };
 
 const DestinationModal: React.FC<DestinationModalProps> = ({
   destination,
   open,
   onClose,
-  bodyStyle  
+  bodyStyle,
+  onViewMoreClick,
 }) => {
   const { data: feedbacks, isLoading } = useFeedbacks(
     destination ? destination._id : undefined
@@ -37,7 +39,7 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
           <p>Best time to visit: {destination?.best_time_to_visit}</p>
           <h3>Feedback:</h3>
           <ul>
-            {feedbacks && feedbacks.length > 0 ?(
+            {feedbacks && feedbacks.length > 0 ? (
               feedbacks.map((feedback: Feedback) => (
                 <li key={feedback._id}>
                   {feedback.feedback_text} - {feedback.left_by} on{" "}
@@ -48,6 +50,14 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
               <p>No feedback available for this destination.</p>
             )}
           </ul>
+          {destination && (
+            <a
+              style={{ color: "blue", marginTop: "10px", display: "block" }}
+              onClick={() => onViewMoreClick(destination)}
+            >
+              View More
+            </a>
+          )}
         </>
       )}
     </Modal>
