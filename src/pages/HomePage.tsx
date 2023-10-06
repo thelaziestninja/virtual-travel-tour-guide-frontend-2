@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import AppHeader from "../components/Header";
 import { Destination } from "../utils/types";
+import AppHeader from "../components/Header";
 import { PlusOutlined } from "@ant-design/icons";
 import AddDestination from "../components/AddDestination";
 import { useSearchFilter } from "../hooks/useSearchFilter";
@@ -101,16 +101,16 @@ const HomePage: React.FC = () => {
           <h2>Destinations</h2>
         </Space>
         <Row gutter={[16, 16]}>
-          {filteredDestinations &&
-            filteredDestinations.map((destination, index) => (
-              <Col key={index} span={6}>
-                <DestinationCard
-                  destination={destination}
-                  onClick={() => handleDestinationClick(destination)}
-                />
-              </Col>
-            ))}
-        </Row>
+  {filteredDestinations &&
+    filteredDestinations.map((destination, index) => (
+      <Col key={index} xs={24} sm={12} md={8} lg={6}>
+        <DestinationCard
+          destination={destination}
+          onClick={() => handleDestinationClick(destination)}
+        />
+      </Col>
+    ))}
+</Row>
         <DestinationModal
           destination={selectedDestination}
           open={!!selectedDestination}
