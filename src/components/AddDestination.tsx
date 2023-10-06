@@ -1,14 +1,19 @@
-// src/components/AddDestination.tsx
 import React from "react";
-import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import { Modal, Form, Input, Button } from "antd";
 import { DestinationFormValues } from "../utils/types";
 import { useCreateDestination } from "../hooks/useDestinations";
+import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 
 type AddDestinationProps = {
   visible: boolean;
   onClose: () => void;
 };
+interface AxiosError extends Error {
+  response: {
+    status: number;
+    data: string;
+  };
+}
 
 const AddDestination: React.FC<AddDestinationProps> = ({
   visible,
@@ -19,26 +24,21 @@ const AddDestination: React.FC<AddDestinationProps> = ({
   const [form] = Form.useForm();
 
   const handleSubmit = (values: DestinationFormValues) => {
-    console.log("Form values:", values);
-
-    // // Filter out null, undefined, and empty string values from the image_url array
-    // const cleaned_image_url = values.image_url?.filter(
-    //   (url) => url !== null && url !== "" && url !== undefined
-    // );
-
-    // console.log("cleaned_image_url:", cleaned_image_url);
-
-    // // Replace the image_url array in values with the cleaned_image_url array
-    // const cleanedValues = { ...values, image_url: cleaned_image_url };
-
-    // console.log("cleanedValues:", cleanedValues);
-
-    createDestinationMutation.mutate(values, {
-      onSuccess: () => {
-        form.resetFields();
-        onClose();
-      },
-    });
+    try {
+      createDestinationMutation.mutate(values, {
+        onSuccess: () => {
+          form.resetFields();
+          onClose();
+        },
+      });
+    } catch (error: unknown) {
+      if (
+        (error as AxiosError).response &&
+        (error as AxiosError).response.status === 400
+      ) {
+        alert((error as AxiosError).response.data);
+      }
+    }
   };
 
   return (

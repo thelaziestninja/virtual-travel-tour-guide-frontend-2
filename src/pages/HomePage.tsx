@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { Destination } from "../utils/types";
 import SearchBar from "../components/SearchBar";
-import { PlusOutlined } from "@ant-design/icons";
-import { HomeOutlined } from "@ant-design/icons";
+import AddDestination from "../components/AddDestination";
 import { useSearchFilter } from "../hooks/useSearchFilter";
 import { useDestinations } from "../hooks/useDestinations";
 import DestinationCard from "../components/DestinationCard";
 import { Button, Layout, Row, Col, Space, Spin } from "antd";
+import { PlusOutlined, HomeOutlined } from "@ant-design/icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DestinationModal from "../components/DestinationDetailsModal";
-import AddDestination from "../components/AddDestination";
 
 const { Header, Content } = Layout;
 
@@ -142,7 +141,7 @@ const HomePage: React.FC = () => {
             position: "fixed",
             bottom: "20px",
             right: "20px",
-            zIndex: 1000, // Ensure the button is above other elements
+            zIndex: 1000,
           }}
         />
         <AddDestination
