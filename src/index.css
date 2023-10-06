@@ -83,7 +83,7 @@ button:focus-visible {
   cursor: pointer;
   transition: transform 0.2s;
   overflow: hidden;
-  marginBottom: 20px;
+  /* marginBottom: 20px; */
 }
 
 .destination-card:hover .destination-name {

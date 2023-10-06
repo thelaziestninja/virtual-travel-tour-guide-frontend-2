@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Destination } from "../utils/types";
-import SearchBar from "../components/SearchBar";
 import AddDestination from "../components/AddDestination";
 import { useSearchFilter } from "../hooks/useSearchFilter";
 import { useDestinations } from "../hooks/useDestinations";
 import DestinationCard from "../components/DestinationCard";
 import { Button, Layout, Row, Col, Space, Spin } from "antd";
-import { PlusOutlined, HomeOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DestinationModal from "../components/DestinationDetailsModal";
+import AppHeader from "../components/Header";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -78,29 +78,7 @@ const HomePage: React.FC = () => {
 
   return (
     <Layout style={{ background: "none" }}>
-      <Header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          borderBottom: "none",
-          background: "transparent",
-          padding: "0 50px",
-        }}
-      >
-        <div style={{ flex: "none" }}>
-          <Button type="primary" icon={<HomeOutlined />} onClick={navigateHome}>
-            Home
-          </Button>
-        </div>
-        <div style={{ flex: "none" }}>
-          <SearchBar
-            destinations={destinations || []}
-            onSearch={handleSearch}
-            value={query || ""}
-          />
-        </div>
-      </Header>
+      <AppHeader onHomeClick={navigateHome} onSearch={handleSearch} query={query} /> 
       <Content style={{ padding: "0 150px" }}>
         <Space
           direction="vertical"

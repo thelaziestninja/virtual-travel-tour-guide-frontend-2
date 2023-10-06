@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Destination, Feedback } from "../utils/types";
+import { Destination, DestinationFormValues, Feedback } from "../utils/types";
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
@@ -14,7 +14,7 @@ export const getDestinationById = (
   api.get<Destination>(`/destination/${id}`);
 
 export const createDestination = (
-  destination: Destination
+  destination: DestinationFormValues
 ): Promise<AxiosResponse<Destination>> =>
   api.post<Destination>("/destination", destination);
 
