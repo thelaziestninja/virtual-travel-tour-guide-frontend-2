@@ -19,6 +19,13 @@ export const createDestination = (
   api.post<Destination>("/destination", destination);
 
 export const getFeedbacks = (
-  destinationId: string
+  destinationId: string, 
 ): Promise<AxiosResponse<Feedback[]>> =>
   api.get<Feedback[]>(`/feedback/${destinationId}`);
+
+  export const createFeedback = (
+    destinationId: string,
+    feedbackData: { feedback_text: string; left_by: string }
+  ): Promise<AxiosResponse<Feedback>> => {
+    return api.post<Feedback>(`/feedback/${destinationId}`, feedbackData);
+  };
