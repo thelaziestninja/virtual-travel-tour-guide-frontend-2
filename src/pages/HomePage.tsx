@@ -83,7 +83,9 @@ const HomePage: React.FC = () => {
   return (
     <Layout style={{ background: "none" }}>
       <AppHeader
+        countries={[]}
         destinations={destinations || []}
+        onCountrySelect={navigateHome}
         onHomeClick={navigateHome}
         onSearch={handleSearch}
         query={query}

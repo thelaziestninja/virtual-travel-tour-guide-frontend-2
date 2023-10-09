@@ -61,7 +61,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         option ? option.value.toLowerCase().startsWith(inputValue.toLowerCase()) : false
       }
     >
-      <Input placeholder="Search" />
+      <Input placeholder="Search destination" />
     </AutoComplete>
   );
 };
