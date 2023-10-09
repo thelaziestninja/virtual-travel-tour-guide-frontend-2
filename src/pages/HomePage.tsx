@@ -83,6 +83,7 @@ const HomePage: React.FC = () => {
   return (
     <Layout style={{ background: "none" }}>
       <AppHeader
+        destinations={destinations || []}
         onHomeClick={navigateHome}
         onSearch={handleSearch}
         query={query}
@@ -101,16 +102,16 @@ const HomePage: React.FC = () => {
           <h2>Destinations</h2>
         </Space>
         <Row gutter={[16, 16]}>
-  {filteredDestinations &&
-    filteredDestinations.map((destination, index) => (
-      <Col key={index} xs={24} sm={12} md={8} lg={6}>
-        <DestinationCard
-          destination={destination}
-          onClick={() => handleDestinationClick(destination)}
-        />
-      </Col>
-    ))}
-</Row>
+          {filteredDestinations &&
+            filteredDestinations.map((destination, index) => (
+              <Col key={index} xs={24} sm={12} md={8} lg={6}>
+                <DestinationCard
+                  destination={destination}
+                  onClick={() => handleDestinationClick(destination)}
+                />
+              </Col>
+            ))}
+        </Row>
         <DestinationModal
           destination={selectedDestination}
           open={!!selectedDestination}

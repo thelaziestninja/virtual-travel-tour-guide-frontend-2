@@ -2,16 +2,18 @@ import React from 'react';
 import { Button, Layout } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import SearchBar from './SearchBar';
+import { Destination } from '../utils/types';
 
 const { Header } = Layout;
 
 type AppHeaderProps = {
+  destinations: Destination[];
   onHomeClick: () => void;
   onSearch: (value: string) => void;
   query: string;
 };
 
-const AppHeader: React.FC<AppHeaderProps> = ({ onHomeClick, onSearch, query }) => {
+const AppHeader: React.FC<AppHeaderProps> = ({ destinations,onHomeClick, onSearch, query }) => {
   const navigateHome = () => {
     onHomeClick();
   };
@@ -33,7 +35,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ onHomeClick, onSearch, query }) =
         </Button>
       </div>
       <div style={{ flex: 'none' }}>
-        <SearchBar destinations={[]} onSearch={onSearch} value={query} />
+        <SearchBar destinations={destinations} onSearch={onSearch} value={query} />
       </div>
     </Header>
   );
