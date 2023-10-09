@@ -47,7 +47,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     if (selectedDestination) {
         navigateToDestination(`/destination/${selectedDestination._id}`);
     }
-    setSearchOptions([]);  // Clear options after selection
+    setSearchOptions([]);  
 };
 
   return (
@@ -61,7 +61,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         option ? option.value.toLowerCase().startsWith(inputValue.toLowerCase()) : false
       }
     >
-      <Input.Search size="large" placeholder="Search" />
+      <Input placeholder="Search" />
     </AutoComplete>
   );
 };
