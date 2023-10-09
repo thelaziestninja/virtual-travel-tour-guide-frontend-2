@@ -58,7 +58,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       onSearch={handleSearch}
       style={{ width: 200 }}
       filterOption={(inputValue, option) =>
-        option ? option.value.toUpperCase().startsWith(inputValue.toUpperCase()) : false
+        option ? option.value.toLowerCase().startsWith(inputValue.toLowerCase()) : false
       }
     >
       <Input.Search size="large" placeholder="Search" />
