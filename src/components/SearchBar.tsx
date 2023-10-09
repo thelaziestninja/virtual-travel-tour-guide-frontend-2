@@ -14,7 +14,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
   value,
 }) => {
-  
+
   const navigateToDestination = useNavigate();
   const [searchOptions, setSearchOptions] = useState<string[]>([]);
   
@@ -33,7 +33,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         .map((destination) => destination.name);
       setSearchOptions(newOptions);
 
-      console.log('newOptions:', newOptions);
+      console.log('searchOptions after update:', searchOptions);
 
     } else {
       setSearchOptions([]);
@@ -57,6 +57,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
       onSelect={onSelect}
       onSearch={handleSearch}
       style={{ width: 200 }}
+      filterOption={(inputValue, option) =>
+        option ? option.value.toUpperCase().startsWith(inputValue.toUpperCase()) : false
+      }
     >
       <Input.Search size="large" placeholder="Search" />
     </AutoComplete>
