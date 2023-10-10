@@ -76,7 +76,7 @@ const DestinationPage: React.FC = () => {
 
   return (
     <Layout style={{ background: "none" }}>
-      <AppHeader onHomeClick={handleHomeClick} onSearch={() => {}} query="" />
+      <AppHeader onHomeClick={handleHomeClick} />
       <Content style={{ padding: "0 650px" }}>
         <Space
           direction="horizontal"

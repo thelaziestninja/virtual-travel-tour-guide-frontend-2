@@ -8,23 +8,23 @@ import SortBy from "./SortBy";
 const { Header } = Layout;
 
 type AppHeaderProps = {
-  destinations: Destination[];
-  countries: string[];
-  selectedCountry: string | null;
-  onCountrySelect: (country: string) => void;
+  destinations?: Destination[];
+  countries?: string[];
+  selectedCountry?: string | null;
+  onCountrySelect?: (country: string) => void;
   onHomeClick: () => void;
-  onSearch: (value: string) => void;
-  query: string;
+  onSearch?: (value: string) => void;
+  query?: string;
 };
 
 const AppHeader: React.FC<AppHeaderProps> = ({
-  destinations,
-  countries,
-  selectedCountry,
+  destinations = [] ,
+  countries = [],
+  selectedCountry= null,
   onHomeClick,
-  onCountrySelect,
+  onCountrySelect= () => {},
   onSearch,
-  query,
+  query = "",
 }) => {
   const navigateHome = () => {
     onHomeClick();
@@ -42,18 +42,22 @@ const AppHeader: React.FC<AppHeaderProps> = ({
       }}
     >
       <div style={{ flex: "none" }}>
-        <Button type="primary" icon={<HomeOutlined />} onClick={navigateHome}>
-          Home
-        </Button>
+        <Button type="primary" icon={<HomeOutlined />} onClick={navigateHome}/>
       </div>
       <div style={{ flex: "none", display: "flex", alignItems: "center" }}>
         <Space size={16}>
-          <SortBy countries={countries} onCountrySelect={onCountrySelect} selectedCountry={selectedCountry}/>
-          <SearchBar
-            destinations={destinations}
-            onSearch={onSearch}
-            value={query}
+          <SortBy
+            countries={countries}
+            onCountrySelect={onCountrySelect}
+            selectedCountry={selectedCountry}
           />
+          {onSearch ? (  // Checking specifically for onSearch prop
+            <SearchBar
+              destinations={destinations}
+              onSearch={onSearch}
+              value={query}
+            />
+          ) : null}
         </Space>
       </div>
     </Header>
