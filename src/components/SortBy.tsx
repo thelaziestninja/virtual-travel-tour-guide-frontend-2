@@ -8,6 +8,10 @@ type SortByProps = {
 };
 
 const SortBy: React.FC<SortByProps> = ({ countries, onCountrySelect }) => {
+  if (!countries || countries.length === 0) {
+    return null;
+  }
+
   return (
     <Dropdown
       overlay={

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Destination } from "../utils/types";
 import AppHeader from "../components/Header";
 import { PlusOutlined } from "@ant-design/icons";
+import { useCountries } from "../hooks/useCountries";
 import AddDestination from "../components/AddDestination";
 import { useSearchFilter } from "../hooks/useSearchFilter";
 import { useDestinations } from "../hooks/useDestinations";
@@ -20,14 +21,27 @@ const HomePage: React.FC = () => {
   const [selectedDestination, setSelectedDestination] =
     useState<Destination | null>(null);
 
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+
   const [isAddDestinationVisible, setIsAddDestinationVisible] =
     useState<boolean>(false);
 
-  const { data: destinations, error, isLoading } = useDestinations();
+  const {
+    data: destinations,
+    error: destinationsError,
+    isLoading: destinationsLoading,
+  } = useDestinations();
+
+  const {
+    data: countries,
+    error: countriesError,
+    isLoading: countriesLoading,
+  } = useCountries();
 
   const { query, setQuery, filteredDestinations } = useSearchFilter(
     destinations,
-    searchParams.get("q") || ""
+    searchParams.get("q") || "",
+    selectedCountry
   );
 
   const handleDestinationClick = (destination: Destination) => {
@@ -55,13 +69,17 @@ const HomePage: React.FC = () => {
     setSearchParams(new URLSearchParams({ q: value }));
   };
 
+  const handleCountrySelect = (country: string) => {
+    setSelectedCountry(country); // Update selectedCountry state when a country is selected
+  };
+
   const navigateHome = () => {
     setSearchParams({ q: "" });
     setQuery("");
     navigate("/");
   };
 
-  if (isLoading) {
+  if (destinationsLoading || countriesLoading) {
     return (
       <div
         style={{
@@ -76,16 +94,21 @@ const HomePage: React.FC = () => {
     );
   }
 
-  if (error) {
-    return <div>An error occurred: {error.message}</div>;
+  if (destinationsError || countriesError) {
+    return (
+      <div>
+        An error occurred:{" "}
+        {destinationsError?.message || countriesError?.message}
+      </div>
+    );
   }
 
   return (
     <Layout style={{ background: "none" }}>
       <AppHeader
-        countries={[]}
+        countries={countries || []}
         destinations={destinations || []}
-        onCountrySelect={navigateHome}
+        onCountrySelect={handleCountrySelect}
         onHomeClick={navigateHome}
         onSearch={handleSearch}
         query={query}

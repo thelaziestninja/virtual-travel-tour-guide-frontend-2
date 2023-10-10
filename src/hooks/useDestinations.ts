@@ -25,12 +25,12 @@ export const useCreateDestination = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (newDestination: DestinationFormValues) => createDestination(newDestination),
+    (newDestination: DestinationFormValues) =>
+      createDestination(newDestination),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('destinations');
+        queryClient.invalidateQueries("destinations");
       },
     }
   );
 };
-

@@ -3,7 +3,8 @@ import { Destination } from "../utils/types";
 
 export const useSearchFilter = (
   destinations: Destination[] | undefined,
-  initialQuery: string
+  initialQuery: string,
+  selectedCountry: string | null
 ) => {
   const [query, setQuery] = useState(initialQuery);
   const [filteredDestinations, setFilteredDestinations] = useState<
@@ -11,21 +12,24 @@ export const useSearchFilter = (
   >(null);
 
   useEffect(() => {
+    let newFilteredDestinations = destinations || [];
+
     if (query) {
-      console.log('query:', query);
       const lowercasedQuery = query.toLowerCase();
-      console.log('lowercasedQuery:', lowercasedQuery);
-      const newFilteredDestinations = destinations?.filter(
+      newFilteredDestinations = newFilteredDestinations.filter(
         (destination) =>
-          destination.name.toLowerCase().startsWith(lowercasedQuery) ||
-          destination.country.toLowerCase().startsWith(lowercasedQuery)
+          destination.name.toLowerCase().startsWith(lowercasedQuery)
       );
-      console.log('newFilteredDestinations:', newFilteredDestinations);
-      setFilteredDestinations(newFilteredDestinations || []);
-    } else {
-      setFilteredDestinations(destinations || []);
     }
-  }, [destinations, query]);
+
+    if (selectedCountry) {
+      newFilteredDestinations = newFilteredDestinations.filter(
+        (destination) => destination.country === selectedCountry
+      );
+    }
+
+    setFilteredDestinations(newFilteredDestinations);
+  }, [destinations, query, selectedCountry]);
 
   return { query, setQuery, filteredDestinations };
 };
