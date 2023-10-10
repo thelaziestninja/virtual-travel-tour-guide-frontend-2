@@ -10,6 +10,7 @@ const { Header } = Layout;
 type AppHeaderProps = {
   destinations: Destination[];
   countries: string[];
+  selectedCountry: string | null;
   onCountrySelect: (country: string) => void;
   onHomeClick: () => void;
   onSearch: (value: string) => void;
@@ -19,6 +20,7 @@ type AppHeaderProps = {
 const AppHeader: React.FC<AppHeaderProps> = ({
   destinations,
   countries,
+  selectedCountry,
   onHomeClick,
   onCountrySelect,
   onSearch,
@@ -46,7 +48,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
       </div>
       <div style={{ flex: "none", display: "flex", alignItems: "center" }}>
         <Space size={16}>
-          <SortBy countries={countries} onCountrySelect={onCountrySelect} />
+          <SortBy countries={countries} onCountrySelect={onCountrySelect} selectedCountry={selectedCountry}/>
           <SearchBar
             destinations={destinations}
             onSearch={onSearch}

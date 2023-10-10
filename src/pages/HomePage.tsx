@@ -74,6 +74,7 @@ const HomePage: React.FC = () => {
   };
 
   const navigateHome = () => {
+    setSelectedCountry(null);
     setSearchParams({ q: "" });
     setQuery("");
     navigate("/");
@@ -108,6 +109,7 @@ const HomePage: React.FC = () => {
       <AppHeader
         countries={countries || []}
         destinations={destinations || []}
+        selectedCountry={selectedCountry}
         onCountrySelect={handleCountrySelect}
         onHomeClick={navigateHome}
         onSearch={handleSearch}

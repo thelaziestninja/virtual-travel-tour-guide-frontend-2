@@ -4,10 +4,15 @@ import { DownOutlined } from "@ant-design/icons";
 
 type SortByProps = {
   countries: string[];
+  selectedCountry: string | null;
   onCountrySelect: (country: string) => void;
 };
 
-const SortBy: React.FC<SortByProps> = ({ countries, onCountrySelect }) => {
+const SortBy: React.FC<SortByProps> = ({
+  countries,
+  selectedCountry,
+  onCountrySelect,
+}) => {
   if (!countries || countries.length === 0) {
     return null;
   }
@@ -23,7 +28,7 @@ const SortBy: React.FC<SortByProps> = ({ countries, onCountrySelect }) => {
       }
     >
       <Button>
-        Country <DownOutlined />
+        {selectedCountry ? selectedCountry : "Country"} <DownOutlined />
       </Button>
     </Dropdown>
   );
