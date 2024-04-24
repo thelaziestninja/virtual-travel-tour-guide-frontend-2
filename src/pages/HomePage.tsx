@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Destination } from "../utils/types";
 import AppHeader from "../components/Header";
 import { PlusOutlined } from "@ant-design/icons";
-import { useCountries } from "../hooks/useCountries";
-import AddDestination from "../components/AddDestination";
-import { useSearchFilter } from "../hooks/useSearchFilter";
-import { useDestinations } from "../hooks/useDestinations";
+import AddDestination from "../components/addModal/AddDestination";
 import DestinationCard from "../components/DestinationCard";
 import { Button, Layout, Row, Col, Space, Spin } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DestinationModal from "../components/DestinationDetailsModal";
+import {
+  useGetCountriesQuery,
+  useGetDestinationsQuery,
+} from "../services/api/apiSlice";
+import { useSearchFilter } from "../search/useSearchFilter";
 
 const { Content } = Layout;
 
@@ -30,13 +32,14 @@ const HomePage: React.FC = () => {
     data: destinations,
     error: destinationsError,
     isLoading: destinationsLoading,
-  } = useDestinations();
+    refetch,
+  } = useGetDestinationsQuery();
 
   const {
     data: countries,
     error: countriesError,
     isLoading: countriesLoading,
-  } = useCountries();
+  } = useGetCountriesQuery();
 
   const { query, setQuery, filteredDestinations } = useSearchFilter(
     destinations,
@@ -61,7 +64,7 @@ const HomePage: React.FC = () => {
   };
 
   const handleViewMoreClick = (destination: Destination) => {
-    navigate(`/destination/${destination._id}`);
+    navigate(`/destination/${destination.id}`);
   };
 
   const handleSearch = (value: string) => {
@@ -99,7 +102,7 @@ const HomePage: React.FC = () => {
     return (
       <div>
         An error occurred:{" "}
-        {destinationsError?.message || countriesError?.message}
+        {/* {destinationsError?.message || countriesError?.message} */}
       </div>
     );
   }
@@ -149,7 +152,12 @@ const HomePage: React.FC = () => {
         <Button
           type="primary"
           shape="circle"
-          icon={<PlusOutlined />}
+          icon={
+            <PlusOutlined
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
+            />
+          }
           size="large"
           onClick={handleOpenAddDestinationModal}
           style={{
@@ -162,6 +170,7 @@ const HomePage: React.FC = () => {
         <AddDestination
           visible={isAddDestinationVisible}
           onClose={handleCloseAddDestinationModal}
+          refetch={refetch}
         />
       </Content>
     </Layout>

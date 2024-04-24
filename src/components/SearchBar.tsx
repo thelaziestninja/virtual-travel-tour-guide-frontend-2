@@ -14,17 +14,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
   value,
 }) => {
-
   const navigateToDestination = useNavigate();
   const [searchOptions, setSearchOptions] = useState<string[]>([]);
-  
 
   const handleSearch = (value: string) => {
-    onSearch(value)
-    console.log('Handling search with value:', value);
+    onSearch(value);
+    console.log("Handling search with value:", value);
 
     if (value) {
-        const newOptions = destinations
+      const newOptions = destinations
         .filter(
           (destination) =>
             destination.name.toLowerCase().includes(value.toLowerCase()) ||
@@ -33,22 +31,21 @@ const SearchBar: React.FC<SearchBarProps> = ({
         .map((destination) => destination.name);
       setSearchOptions(newOptions);
 
-      console.log('searchOptions after update:', searchOptions);
-
+      console.log("searchOptions after update:", searchOptions);
     } else {
       setSearchOptions([]);
     }
   };
 
-  const onSelect = (value: string) => { 
+  const onSelect = (value: string) => {
     const selectedDestination = destinations.find(
-        destination => destination.name.toLowerCase() === value.toLowerCase()
+      (destination) => destination.name.toLowerCase() === value.toLowerCase()
     );
     if (selectedDestination) {
-        navigateToDestination(`/destination/${selectedDestination._id}`);
+      navigateToDestination(`/destination/${selectedDestination.id}`);
     }
-    setSearchOptions([]);  
-};
+    setSearchOptions([]);
+  };
 
   return (
     <AutoComplete
@@ -58,7 +55,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
       onSearch={handleSearch}
       style={{ width: 200 }}
       filterOption={(inputValue, option) =>
-        option ? option.value.toLowerCase().startsWith(inputValue.toLowerCase()) : false
+        option
+          ? option.value.toLowerCase().startsWith(inputValue.toLowerCase())
+          : false
       }
     >
       <Input placeholder="Search destination" />

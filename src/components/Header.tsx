@@ -18,11 +18,11 @@ type AppHeaderProps = {
 };
 
 const AppHeader: React.FC<AppHeaderProps> = ({
-  destinations = [] ,
+  destinations = [],
   countries = [],
-  selectedCountry= null,
+  selectedCountry = null,
   onHomeClick,
-  onCountrySelect= () => {},
+  onCountrySelect = () => {},
   onSearch,
   query = "",
 }) => {
@@ -42,7 +42,16 @@ const AppHeader: React.FC<AppHeaderProps> = ({
       }}
     >
       <div style={{ flex: "none" }}>
-        <Button type="primary" icon={<HomeOutlined />} onClick={navigateHome}/>
+        <Button
+          type="primary"
+          icon={
+            <HomeOutlined
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
+            />
+          }
+          onClick={navigateHome}
+        />
       </div>
       <div style={{ flex: "none", display: "flex", alignItems: "center" }}>
         <Space size={16}>
@@ -51,7 +60,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
             onCountrySelect={onCountrySelect}
             selectedCountry={selectedCountry}
           />
-          {onSearch ? (  // Checking specifically for onSearch prop
+          {onSearch ? ( // Checking specifically for onSearch prop
             <SearchBar
               destinations={destinations}
               onSearch={onSearch}

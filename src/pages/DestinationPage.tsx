@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import AppHeader from "../components/Header";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDestinationById } from "../hooks/useDestinations";
-import { useCreateFeedback, useFeedbacks } from "../hooks/useFeedbacks";
 import {
   Layout,
   Space,
@@ -13,6 +11,11 @@ import {
   Button,
   Checkbox,
 } from "antd";
+import {
+  useCreateFeedbackMutation,
+  useGetDestinationByIdQuery,
+  useGetFeedbacksQuery,
+} from "../services/api/apiSlice";
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -27,33 +30,28 @@ const DestinationPage: React.FC = () => {
     data: destination,
     isLoading: isLoadingDestination,
     error: destinationError,
-  } = useDestinationById(id);
+  } = useGetDestinationByIdQuery(id);
   const {
     data: feedbacks,
     isLoading: isLoadingFeedbacks,
     error: feedbacksError,
-  } = useFeedbacks(id);
+  } = useGetFeedbacksQuery(id);
 
   const navigate = useNavigate();
-  const mutation = useCreateFeedback(id);
+  const mutation = useCreateFeedbackMutation();
 
   const handleHomeClick = () => {
     navigate("/");
   };
 
-  const handleSubmitFeedback = async () => {
-    if (newFeedback.trim() !== "") {
-      try {
-        await mutation.mutateAsync({
-          feedback_text: newFeedback,
-          left_by: isAnonymous ? "Anonymous" : leftBy,
-        });
-        setNewFeedback("");
-        setLeftBy("");
-      } catch (error) {
-        console.error("Error submitting feedback:", error);
-      }
-    }
+  const handleSubmitFeedback = () => {
+    mutation.mutate({
+      destination_id: id,
+      feedback_text: newFeedback,
+      left_by: isAnonymous ? "Anonymous" : leftBy,
+    });
+    setNewFeedback("");
+    setLeftBy("");
   };
 
   const sortedFeedbacks = feedbacks
@@ -69,9 +67,7 @@ const DestinationPage: React.FC = () => {
   }
 
   if (destinationError || feedbacksError) {
-    return (
-      <div>Error: {destinationError?.message || feedbacksError?.message}</div>
-    );
+    return <div>Error: </div>;
   }
 
   return (
