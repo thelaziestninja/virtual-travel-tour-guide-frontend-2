@@ -17,3 +17,5 @@ export interface Feedback {
   left_by: string;
   feedback_date: Date;
 }
+
+// type SortOption = 'country'
