@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { Destination } from "../types";
-import AppHeader from "../components/header/Header";
-import { PlusOutlined } from "@ant-design/icons";
-import AddDestination from "../components/addModal/AddDestination";
-import DestinationCard from "../components/card/DestinationCard";
-import { Button, Layout, Row, Col, Space, Spin } from "antd";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import DestinationModal from "../components/card/DestinationDetailsModal";
 import {
   useGetCountriesQuery,
   useGetDestinationsQuery,
 } from "../services/api/apiSlice";
+import { Destination } from "../types";
+import React, { useState } from "react";
+import { PlusOutlined } from "@ant-design/icons";
+import AppHeader from "../components/header/Header";
 import { useSearchFilter } from "../search/useSearchFilter";
+import { Button, Layout, Row, Col, Space, Spin } from "antd";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import DestinationCard from "../components/card/DestinationCard";
+import AddDestination from "../components/addModal/AddDestination";
+import DestinationModal from "../components/card/DestinationDetailsModal";
 
 const { Content } = Layout;
 

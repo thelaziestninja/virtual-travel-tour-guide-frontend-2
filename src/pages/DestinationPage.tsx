@@ -57,7 +57,10 @@ const DestinationPage: React.FC = () => {
   const sortedFeedbacks = feedbacks
     ?.slice()
     .sort(
-      (a, b) =>
+      (
+        a: { feedback_date: string | number | Date },
+        b: { feedback_date: string | number | Date }
+      ) =>
         new Date(b.feedback_date).getTime() -
         new Date(a.feedback_date).getTime()
     );

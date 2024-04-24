@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   Destination,
   DestinationFormValues,
@@ -7,6 +6,7 @@ import {
   Feedback,
   FeedbackFormValues,
 } from "../../types";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -18,6 +18,8 @@ export const apiSlice = createApi({
     }),
     getDestinations: builder.query<Destination[], void>({
       query: () => "/destination",
+      transformResponse: (res: Destination[]) =>
+        res.sort((a, b) => a.name.localeCompare(b.name)),
       providesTags: (result: Destination[]) =>
         result
           ? result.map(({ id }) => ({ type: "Destination", id }))
