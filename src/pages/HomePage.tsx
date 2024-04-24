@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Destination } from "../utils/types";
+import { Destination } from "../types";
 import AppHeader from "../components/header/Header";
 import { PlusOutlined } from "@ant-design/icons";
 import AddDestination from "../components/addModal/AddDestination";

@@ -1,31 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   Destination,
   DestinationFormValues,
+  Country,
   Feedback,
-} from "../../utils/types";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+  FeedbackFormValues,
+} from "../../types";
 
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
   tagTypes: ["Destination", "Feedback"],
   endpoints: (builder) => ({
-    getCountries: builder.query<string[], void>({
+    getCountries: builder.query<Country, void>({
       query: () => "/countries",
     }),
     getDestinations: builder.query<Destination[], void>({
       query: () => "/destination",
-      providesTags: (result) =>
+      providesTags: (result: Destination[]) =>
         result
           ? result.map(({ id }) => ({ type: "Destination", id }))
           : [{ type: "Destination", id: "LIST" }],
     }),
     getDestinationById: builder.query<Destination, string>({
-      query: (id) => `/destination/${id}`,
-      providesTags: (_result, _error, id) => [{ type: "Destination", id: id }],
+      query: (id: string) => `/destination/${id}`,
+
+      providesTags: (_result: any, _error: unknown, id: string) => [
+        { type: "Destination", id },
+      ],
     }),
     addDestination: builder.mutation<Destination, DestinationFormValues>({
-      query: (destination) => ({
+      query: (destination: DestinationFormValues) => ({
         url: "/destination",
         method: "POST",
         body: destination,
@@ -39,18 +45,26 @@ export const apiSlice = createApi({
         feedbackData: { feedback_text: string; left_by: string };
       }
     >({
-      query: ({ destinationId, feedbackData }) => ({
+      query: ({
+        destinationId,
+        feedbackData,
+      }: {
+        destinationId: string;
+        feedbackData: FeedbackFormValues;
+      }) => ({
         url: `/feedback/${destinationId}`,
         method: "POST",
         body: feedbackData,
       }),
-      invalidatesTags: (_result, _error, { destinationId }) => [
-        { type: "Feedback", id: destinationId },
-      ],
+      invalidatesTags: (
+        _result: any,
+        _error: unknown,
+        { destinationId }: { destinationId: string }
+      ) => [{ type: "Feedback", id: destinationId }],
     }),
     getFeedbacks: builder.query<Feedback[], string>({
-      query: (destinationId) => `/feedback/${destinationId}`,
-      providesTags: (_result, _error, destinationId) => [
+      query: (destinationId: string) => `/feedback/${destinationId}`,
+      providesTags: (_result: any, _error: unknown, destinationId: string) => [
         { type: "Feedback", id: destinationId },
       ],
     }),

@@ -1,5 +1,9 @@
 type ObjectId = string;
 
+export interface Country {
+  string: string[];
+}
+
 export interface Destination {
   id: string;
   name: string;
@@ -19,4 +23,5 @@ export interface Feedback {
   feedback_date: Date;
 }
 
+export type FeedbackFormValues = Omit<Feedback, "id" | "feedback_date">;
 // type SortOption = 'country'

@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "antd";
-import { Destination, Feedback } from "../../utils/types";
+import { Destination, Feedback } from "../../types";
 import { useGetFeedbacksQuery } from "../../services/api/apiSlice";
 
 type DestinationModalProps = {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Form, Button, message } from "antd";
-import { DestinationFormValues } from "../../utils/types";
+import { DestinationFormValues } from "../../types";
 import { useAddDestinationMutation } from "../../services/api/apiSlice";
 import FormField from "./FormField";
 
