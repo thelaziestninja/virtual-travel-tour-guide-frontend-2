@@ -16,7 +16,6 @@ type AppHeaderProps = {
   onSearch?: (value: string) => void;
   query?: string;
 };
-
 const AppHeader: React.FC<AppHeaderProps> = ({
   destinations = [],
   countries = [],

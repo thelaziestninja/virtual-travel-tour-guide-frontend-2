@@ -1,7 +1,7 @@
 import {
   useGetCountriesQuery,
   useGetDestinationsQuery,
-} from "../services/api/apiSlice";
+} from "../services/destinations/destinationsSlice";
 import { Destination } from "../types";
 import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
