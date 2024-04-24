@@ -1,5 +1,5 @@
 import React from "react";
-import { Destination } from "../utils/types";
+import { Destination } from "../../utils/types";
 
 type DestinationCardProps = {
   destination: Destination;

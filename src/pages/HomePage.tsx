@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Destination } from "../utils/types";
-import AppHeader from "../components/Header";
+import AppHeader from "../components/header/Header";
 import { PlusOutlined } from "@ant-design/icons";
 import AddDestination from "../components/addModal/AddDestination";
-import DestinationCard from "../components/DestinationCard";
+import DestinationCard from "../components/card/DestinationCard";
 import { Button, Layout, Row, Col, Space, Spin } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import DestinationModal from "../components/DestinationDetailsModal";
+import DestinationModal from "../components/card/DestinationDetailsModal";
 import {
   useGetCountriesQuery,
   useGetDestinationsQuery,

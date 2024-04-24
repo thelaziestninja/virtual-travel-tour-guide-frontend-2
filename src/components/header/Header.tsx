@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Layout, Space } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import SearchBar from "./SearchBar";
-import { Destination } from "../utils/types";
+import { Destination } from "../../utils/types";
 import SortBy from "./SortBy";
 
 const { Header } = Layout;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "antd";
-import { Destination, Feedback } from "../utils/types";
-import { useGetFeedbacksQuery } from "../services/api/apiSlice";
+import { Destination, Feedback } from "../../utils/types";
+import { useGetFeedbacksQuery } from "../../services/api/apiSlice";
 
 type DestinationModalProps = {
   destination: Destination | null;
@@ -24,7 +24,10 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
 
   const latestFeedbacks = feedbacks
     ?.sort(
-      (a, b) =>
+      (
+        a: { feedback_date: string | number | Date },
+        b: { feedback_date: string | number | Date }
+      ) =>
         new Date(b.feedback_date).getTime() -
         new Date(a.feedback_date).getTime()
     )
