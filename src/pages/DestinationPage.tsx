@@ -11,11 +11,11 @@ import {
   Button,
   Checkbox,
 } from "antd";
+import { useGetDestinationByIdQuery } from "../services/destinations/destinationsSlice";
 import {
   useCreateFeedbackMutation,
-  useGetDestinationByIdQuery,
   useGetFeedbacksQuery,
-} from "../services/api/apiSlice";
+} from "../services/feedbacks/feedbacksSlice";
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
