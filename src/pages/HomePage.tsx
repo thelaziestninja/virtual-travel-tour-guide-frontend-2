@@ -2,16 +2,19 @@ import {
   useGetCountriesQuery,
   useGetDestinationsQuery,
 } from "../services/destinations/destinationsSlice";
+import { Layout, Space } from "antd";
 import { Destination } from "../types";
 import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
 import AppHeader from "../components/header/Header";
 import { useSearchFilter } from "../search/useSearchFilter";
-import { Button, Layout, Row, Col, Space, Spin } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import DestinationCard from "../components/home/card/DestinationCard";
 import AddDestination from "../components/home/addModal/AddDestination";
+import { DestinationsList } from "../components/home/DestinationsList";
+import { LoadingSpinner } from "../components/home/LoadingSpinner";
 import DestinationModal from "../components/home/card/DestinationDetailsModal";
+import { AddDestinationButton } from "../components/home/AddDestinationButton";
+import { ErrorMessage } from "../components/home/ErrorMessage";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const { Content } = Layout;
 
@@ -83,28 +86,11 @@ const HomePage: React.FC = () => {
     navigate("/");
   };
 
-  if (destinationsLoading || countriesLoading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <Spin size="large" />
-      </div>
-    );
-  }
+  if (destinationsLoading || countriesLoading) return <LoadingSpinner />;
 
   if (destinationsError || countriesError) {
-    return (
-      <div>
-        An error occurred:{" "}
-        {/* {destinationsError?.message || countriesError?.message} */}
-      </div>
-    );
+    const errorToShow = destinationsError || countriesError;
+    return <ErrorMessage error={errorToShow as FetchBaseQueryError} />;
   }
 
   return (
@@ -131,17 +117,10 @@ const HomePage: React.FC = () => {
         >
           <h2>Destinations</h2>
         </Space>
-        <Row gutter={[16, 16]}>
-          {filteredDestinations &&
-            filteredDestinations.map((destination, index) => (
-              <Col key={index} xs={24} sm={12} md={8} lg={6}>
-                <DestinationCard
-                  destination={destination}
-                  onClick={() => handleDestinationClick(destination)}
-                />
-              </Col>
-            ))}
-        </Row>
+        <DestinationsList
+          destinations={filteredDestinations || []}
+          onDestinationClick={handleDestinationClick}
+        />
         <DestinationModal
           destination={selectedDestination}
           open={!!selectedDestination}
@@ -149,24 +128,7 @@ const HomePage: React.FC = () => {
           bodyStyle={{ overflow: "auto" }}
           onViewMoreClick={handleViewMoreClick}
         />
-        <Button
-          type="primary"
-          shape="circle"
-          icon={
-            <PlusOutlined
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-            />
-          }
-          size="large"
-          onClick={handleOpenAddDestinationModal}
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            zIndex: 1000,
-          }}
-        />
+        <AddDestinationButton onClick={handleOpenAddDestinationModal} />
         <AddDestination
           visible={isAddDestinationVisible}
           onClose={handleCloseAddDestinationModal}
