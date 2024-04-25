@@ -1,181 +1,51 @@
-import React, { useState } from "react";
+import React from "react";
 import AppHeader from "../components/header/Header";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Layout,
-  Space,
-  Typography,
-  Card,
-  List,
-  Input,
-  Button,
-  Checkbox,
-} from "antd";
+import { Layout } from "antd";
 import { useGetDestinationByIdQuery } from "../services/destinations/destinationsSlice";
-import {
-  useCreateFeedbackMutation,
-  useGetFeedbacksQuery,
-} from "../services/feedbacks/feedbacksSlice";
+
+import DestinationDetails from "../components/destination/DestinationDetails";
+import { FeedbackSection } from "../components/destination/FeedbackSection";
 
 const { Content } = Layout;
-const { Title, Paragraph } = Typography;
 
 const DestinationPage: React.FC = () => {
+  const navigate = useNavigate();
   const { id = "default-id" } = useParams();
-  const [newFeedback, setNewFeedback] = useState("");
-  const [leftBy, setLeftBy] = useState("");
-  const [isAnonymous, setIsAnonymous] = useState(false);
 
   const {
     data: destination,
     isLoading: isLoadingDestination,
     error: destinationError,
   } = useGetDestinationByIdQuery(id);
-  const {
-    data: feedbacks,
-    isLoading: isLoadingFeedbacks,
-    error: feedbacksError,
-  } = useGetFeedbacksQuery(id);
-
-  const navigate = useNavigate();
-  const mutation = useCreateFeedbackMutation();
 
   const handleHomeClick = () => {
     navigate("/");
   };
 
-  const handleSubmitFeedback = () => {
-    mutation.mutate({
-      destination_id: id,
-      feedback_text: newFeedback,
-      left_by: isAnonymous ? "Anonymous" : leftBy,
-    });
-    setNewFeedback("");
-    setLeftBy("");
-  };
+  if (isLoadingDestination) return <div>Loading...</div>;
 
-  const sortedFeedbacks = feedbacks
-    ?.slice()
-    .sort(
-      (
-        a: { feedback_date: string | number | Date },
-        b: { feedback_date: string | number | Date }
-      ) =>
-        new Date(b.feedback_date).getTime() -
-        new Date(a.feedback_date).getTime()
-    );
-
-  if (isLoadingDestination || isLoadingFeedbacks) {
-    return <div>Loading...</div>;
-  }
-
-  if (destinationError || feedbacksError) {
-    return <div>Error: </div>;
-  }
+  if (destinationError) return <div>Error: </div>;
 
   return (
     <Layout style={{ background: "none" }}>
       <AppHeader onHomeClick={handleHomeClick} />
-      <Content style={{ padding: "0 650px" }}>
-        <Space
-          direction="horizontal"
-          size="large"
-          style={{
-            width: "100%",
-            display: "contents",
-            flexDirection: "column",
-            alignItems: "end",
-            marginTop: "20px",
-          }}
-        >
-          {destination && (
-            <>
-              <Card
-                style={{ width: "100%", maxWidth: "600px" }}
-                cover={
-                  destination.image_url &&
-                  destination.image_url[0] && (
-                    <img
-                      alt={destination.name}
-                      src={destination.image_url[0]}
-                    />
-                  )
-                }
-              >
-                <Typography>
-                  <Title level={2}>{destination.name}</Title>
-                  <Paragraph>
-                    <strong>Country:</strong> {destination.country}
-                  </Paragraph>
-                  <Paragraph>
-                    <strong>Best Time to Visit:</strong>{" "}
-                    {destination.best_time_to_visit}
-                  </Paragraph>
-                  <Paragraph>
-                    <strong>Description:</strong> {destination.description}
-                  </Paragraph>
-                </Typography>
-              </Card>
-
-              <Card
-                style={{ width: "100%", maxWidth: "600px", marginTop: "20px" }}
-                title="Feedback"
-              >
-                {/* Feedback input box */}
-                <div style={{ marginBottom: "10px" }}>
-                  <Checkbox
-                    checked={isAnonymous}
-                    onChange={(e) => setIsAnonymous(e.target.checked)}
-                  >
-                    Anonymous
-                  </Checkbox>
-                  {!isAnonymous && (
-                    <Input
-                      value={leftBy}
-                      onChange={(e) => setLeftBy(e.target.value)}
-                      placeholder="Your name/nickname"
-                      style={{ marginRight: "10px", marginTop: "10px" }}
-                    />
-                  )}
-                  <Input
-                    value={newFeedback}
-                    onChange={(e) => setNewFeedback(e.target.value)}
-                    placeholder="Share your feedback..."
-                    style={{
-                      marginRight: "10px",
-                      marginTop: "10px",
-                      width: "83%",
-                    }}
-                  />
-                  <Button type="primary" onClick={handleSubmitFeedback}>
-                    Submit
-                  </Button>
-                </div>
-                {sortedFeedbacks && sortedFeedbacks.length > 0 ? (
-                  <List
-                    itemLayout="horizontal"
-                    dataSource={sortedFeedbacks}
-                    renderItem={(feedback) => (
-                      <List.Item>
-                        <List.Item.Meta
-                          title={feedback.left_by}
-                          description={feedback.feedback_text}
-                        />
-                        <div>
-                          {new Date(
-                            feedback.feedback_date
-                          ).toLocaleDateString()}
-                        </div>
-                      </List.Item>
-                    )}
-                  />
-                ) : (
-                  <p>No available feedback.</p>
-                )}
-              </Card>
-            </>
-          )}
-        </Space>
+      <Content
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          height: "100vh",
+          paddingTop: "20px",
+        }}
+      >
+        {destination && (
+          <>
+            <DestinationDetails destination={destination} />
+            <FeedbackSection destinationId={destination.id} />
+          </>
+        )}
       </Content>
     </Layout>
   );

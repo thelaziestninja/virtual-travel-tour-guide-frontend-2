@@ -1,8 +1,8 @@
 import React from "react";
 import FormField from "./FormField";
 import { Modal, Form, Button, message } from "antd";
-import { DestinationFormValues } from "../../types";
-import { useAddDestinationMutation } from "../../services/destinations/destinationsSlice";
+import { DestinationFormValues } from "../../../types";
+import { useAddDestinationMutation } from "../../../services/destinations/destinationsSlice";
 
 type AddDestinationProps = {
   visible: boolean;

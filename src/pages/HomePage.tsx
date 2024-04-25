@@ -9,9 +9,9 @@ import AppHeader from "../components/header/Header";
 import { useSearchFilter } from "../search/useSearchFilter";
 import { Button, Layout, Row, Col, Space, Spin } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import DestinationCard from "../components/card/DestinationCard";
-import AddDestination from "../components/addModal/AddDestination";
-import DestinationModal from "../components/card/DestinationDetailsModal";
+import DestinationCard from "../components/home/card/DestinationCard";
+import AddDestination from "../components/home/addModal/AddDestination";
+import DestinationModal from "../components/home/card/DestinationDetailsModal";
 
 const { Content } = Layout;
 

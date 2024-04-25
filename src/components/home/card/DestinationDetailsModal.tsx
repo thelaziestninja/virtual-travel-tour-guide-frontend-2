@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "antd";
-import { Destination, Feedback } from "../../types";
-import { useGetFeedbacksQuery } from "../../services/feedbacks/feedbacksSlice";
+import { Destination, Feedback } from "../../../types";
+import { useGetFeedbacksQuery } from "../../../services/feedbacks/feedbacksSlice";
 
 type DestinationModalProps = {
   destination: Destination | null;
@@ -19,7 +19,10 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
   onViewMoreClick,
 }) => {
   const { data: feedbacks, isLoading } = useGetFeedbacksQuery(
-    destination?.id || ""
+    destination?.id || "",
+    {
+      skip: !destination?.id,
+    }
   );
 
   const latestFeedbacks = feedbacks
