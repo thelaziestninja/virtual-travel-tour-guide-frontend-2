@@ -1,17 +1,19 @@
 import React from "react";
 import { Destination } from "../../../types";
+import { useAtom } from "jotai";
+import { selectedDestinationAtom } from "../../../state/homeAtoms";
 
 type DestinationCardProps = {
   destination: Destination;
-  onClick: () => void;
 };
 
-const DestinationCard: React.FC<DestinationCardProps> = ({
-  destination,
-  onClick,
-}) => {
+const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
+  const [, setSelectedDestination] = useAtom(selectedDestinationAtom);
   return (
-    <div className="destination-card" onClick={onClick}>
+    <div
+      className="destination-card"
+      onClick={() => setSelectedDestination(destination)}
+    >
       {destination.image_url && destination.image_url.length > 0 ? (
         <>
           <img

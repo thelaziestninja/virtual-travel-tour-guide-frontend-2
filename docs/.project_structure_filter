@@ -1,0 +1,56 @@
+--- Folder Structure ---
+.eslintrc.cjs
+[.git]
+.gitignore
+[docs]
+    └── .project_structure_filter
+index.html
+package-lock.json
+package.json
+[public]
+    └── vite.svg
+README.md
+[src]
+    ├── App.css
+    ├── App.tsx
+    ├── [assets]
+        ├── logo.PNG
+        └── react.svg
+    ├── [components]
+        ├── [destination]
+            ├── DestinationDetails.tsx
+            └── FeedbackSection.tsx
+        ├── [header]
+            ├── Header.tsx
+            ├── SearchBar.tsx
+            └── SortBy.tsx
+        └── [home]
+            ├── AddDestinationButton.tsx
+            ├── [addModal]
+                ├── AddDestination.tsx
+                └── FormField.tsx
+            ├── [card]
+                ├── DestinationCard.tsx
+                └── DestinationDetailsModal.tsx
+            ├── DestinationList.tsx
+            └── LoadingSpinner.tsx
+    ├── [hooks]
+        ├── useCountries.ts
+        ├── useDestinations.ts
+        ├── useFeedbacks.ts
+        └── useSearchFilter.ts
+    ├── index.css
+    ├── main.tsx
+    ├── [pages]
+        ├── DestinationPage.tsx
+        └── HomePage.tsx
+    ├── [services]
+        └── api.ts
+    ├── [types]
+        └── index.ts
+    └── vite-env.d.ts
+tsconfig.json
+tsconfig.node.json
+vite.config.ts
+
+--- File Contents ---

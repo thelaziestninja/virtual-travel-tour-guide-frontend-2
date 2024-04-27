@@ -1,31 +1,42 @@
+import React from "react";
+import { useAtom } from "jotai";
 import { Layout, Space } from "antd";
 import { Destination } from "../types";
-import React, { useState } from "react";
 import AppHeader from "../components/header/Header";
 import { useCountries } from "../hooks/useCountries";
-import { useSearchFilter } from "../hooks/useSearchFilter";
 import { useDestinations } from "../hooks/useDestinations";
+import { useSearchFilter } from "../hooks/useSearchFilter";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import AddDestination from "../components/home/addModal/AddDestination";
-import DestinationModal from "../components/home/card/DestinationDetailsModal";
 import { LoadingSpinner } from "../components/home/LoadingSpinner";
 import { DestinationsList } from "../components/home/DestinationList";
+import AddDestination from "../components/home/addModal/AddDestination";
 import { AddDestinationButton } from "../components/home/AddDestinationButton";
+import DestinationModal from "../components/home/card/DestinationDetailsModal";
+import {
+  destinationFormVisibleAtom,
+  selectedCountryAtom,
+  selectedDestinationAtom,
+} from "../state/homeAtoms";
 
 const { Content } = Layout;
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-
   const [searchParams, setSearchParams] = useSearchParams({ q: "" });
 
-  const [selectedDestination, setSelectedDestination] =
-    useState<Destination | null>(null);
+  // const [selectedDestination, setSelectedDestination] =
+  //   useState<Destination | null>(null);
+  const [selectedDestination, setSelectedDestination] = useAtom(
+    selectedDestinationAtom
+  );
+  // const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useAtom(selectedCountryAtom);
 
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-
-  const [isAddDestinationVisible, setIsAddDestinationVisible] =
-    useState<boolean>(false);
+  // const [isAddDestinationVisible, setIsAddDestinationVisible] =
+  //   useState<boolean>(false);
+  const [isAddDestinationVisible, setIsAddDestinationVisible] = useAtom(
+    destinationFormVisibleAtom
+  );
 
   const {
     data: destinations,
@@ -45,9 +56,15 @@ const HomePage: React.FC = () => {
     selectedCountry
   );
 
-  const handleDestinationClick = (destination: Destination) => {
-    setSelectedDestination(destination);
-  };
+  // useEffect(() => {
+  //   console.log("Selected Destination Changed:", selectedDestination);
+  // }, [selectedDestination]);
+  //Use the state from atoms and react query as before
+
+  //-in the jsx, pass the setSelectedDestination function to the DestinationCard component
+  // const handleDestinationClick = (destination: Destination) => {
+  //   setSelectedDestination(destination);
+  // };
 
   const handleCloseModal = () => {
     setSelectedDestination(null);
@@ -118,7 +135,7 @@ const HomePage: React.FC = () => {
         </Space>
         <DestinationsList
           destinations={filteredDestinations || []}
-          onDestinationClick={handleDestinationClick}
+          onDestinationClick={setSelectedDestination}
         />
         <DestinationModal
           destination={selectedDestination}
