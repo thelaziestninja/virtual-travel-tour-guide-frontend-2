@@ -18,10 +18,3 @@ export interface Feedback {
   left_by: string;
   feedback_date: Date;
 }
-
-export type FeedbackFormValues = Omit<Feedback, "id" | "feedback_date">;
-
-export type CreateFeedbackParams = {
-  destinationId: string;
-  feedbackData: FeedbackFormValues;
-};
