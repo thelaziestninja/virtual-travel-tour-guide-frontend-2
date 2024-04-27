@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAtom } from "jotai";
 import { Layout, Space } from "antd";
 import { Destination } from "../types";
@@ -56,27 +56,22 @@ const HomePage: React.FC = () => {
     selectedCountry
   );
 
-  // useEffect(() => {
-  //   console.log("Selected Destination Changed:", selectedDestination);
-  // }, [selectedDestination]);
-  //Use the state from atoms and react query as before
-
   //-in the jsx, pass the setSelectedDestination function to the DestinationCard component
   // const handleDestinationClick = (destination: Destination) => {
   //   setSelectedDestination(destination);
   // };
 
-  const handleCloseModal = () => {
-    setSelectedDestination(null);
-  };
+  //  // const handleCloseModal = () => {
+  //   setSelectedDestination(null);
+  // };
 
-  const handleOpenAddDestinationModal = () => {
-    setIsAddDestinationVisible(true);
-  };
+  // const handleOpenAddDestinationModal = () => {
+  //   setIsAddDestinationVisible(true);
+  // };
 
-  const handleCloseAddDestinationModal = () => {
-    setIsAddDestinationVisible(false);
-  };
+  // const handleCloseAddDestinationModal = () => {
+  //   setIsAddDestinationVisible(false);
+  // };
 
   const handleViewMoreClick = (destination: Destination) => {
     navigate(`/destination/${destination.id}`);
@@ -87,9 +82,15 @@ const HomePage: React.FC = () => {
     setSearchParams(new URLSearchParams({ q: value }));
   };
 
-  const handleCountrySelect = (country: string) => {
-    setSelectedCountry(country); // Update selectedCountry state when a country is selected
-  };
+  // const handleCountrySelect = (country: string) => {
+  //   setSelectedCountry(country); // Update selectedCountry state when a country is selected
+  // };
+
+  useEffect(() => {
+    if (selectedCountry) {
+      console.log("selectedCountry", selectedCountry);
+    }
+  }, [selectedCountry]);
 
   const navigateHome = () => {
     setSelectedCountry(null);
@@ -115,7 +116,7 @@ const HomePage: React.FC = () => {
         countries={countries || []}
         destinations={destinations || []}
         selectedCountry={selectedCountry}
-        onCountrySelect={handleCountrySelect}
+        onCountrySelect={(country: string) => setSelectedCountry(country)}
         onHomeClick={navigateHome}
         onSearch={handleSearch}
         query={query}
@@ -140,14 +141,16 @@ const HomePage: React.FC = () => {
         <DestinationModal
           destination={selectedDestination}
           open={!!selectedDestination}
-          onClose={handleCloseModal}
+          onClose={() => setSelectedDestination(null)}
           bodyStyle={{ overflow: "auto" }}
           onViewMoreClick={handleViewMoreClick}
         />
-        <AddDestinationButton onClick={handleOpenAddDestinationModal} />
+        <AddDestinationButton
+          onClick={() => setIsAddDestinationVisible(true)}
+        />
         <AddDestination
           visible={isAddDestinationVisible}
-          onClose={handleCloseAddDestinationModal}
+          onClose={() => setIsAddDestinationVisible(false)}
         />
       </Content>
     </Layout>
