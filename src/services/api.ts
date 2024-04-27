@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Destination, DestinationFormValues, Feedback } from "../utils/types";
+import { Destination, DestinationFormValues, Feedback } from "../types";
 
 const api = axios.create({
   baseURL: "http://localhost:3000",

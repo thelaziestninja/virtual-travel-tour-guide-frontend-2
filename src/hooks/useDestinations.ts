@@ -4,7 +4,7 @@ import {
   getDestinationById,
   getDestinations,
 } from "../services/api";
-import { Destination, DestinationFormValues } from "../utils/types";
+import { Destination, DestinationFormValues } from "../types";
 
 export const useDestinations = () => {
   // returns the data property fron tghe Axios response, rather than the whole response.

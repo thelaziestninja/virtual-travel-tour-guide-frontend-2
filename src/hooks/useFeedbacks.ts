@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getFeedbacks, createFeedback } from "../services/api";
-import { Feedback } from "../utils/types";
+import { Feedback } from "../types";
 
 export const useFeedbacks = (destinationId: string | undefined) => {
   return useQuery<Feedback[], Error>(

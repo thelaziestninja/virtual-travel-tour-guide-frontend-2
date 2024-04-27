@@ -1,15 +1,16 @@
+import { Layout, Space } from "antd";
+import { Destination } from "../types";
 import React, { useState } from "react";
-import { Destination } from "../utils/types";
-import AppHeader from "../components/Header";
-import { PlusOutlined } from "@ant-design/icons";
+import AppHeader from "../components/header/Header";
 import { useCountries } from "../hooks/useCountries";
-import AddDestination from "../components/AddDestination";
 import { useSearchFilter } from "../hooks/useSearchFilter";
 import { useDestinations } from "../hooks/useDestinations";
-import DestinationCard from "../components/DestinationCard";
-import { Button, Layout, Row, Col, Space, Spin } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import DestinationModal from "../components/DestinationDetailsModal";
+import AddDestination from "../components/home/addModal/AddDestination";
+import DestinationModal from "../components/home/card/DestinationDetailsModal";
+import { LoadingSpinner } from "../components/home/LoadingSpinner";
+import { DestinationsList } from "../components/home/DestinationList";
+import { AddDestinationButton } from "../components/home/AddDestinationButton";
 
 const { Content } = Layout;
 
@@ -61,7 +62,7 @@ const HomePage: React.FC = () => {
   };
 
   const handleViewMoreClick = (destination: Destination) => {
-    navigate(`/destination/${destination._id}`);
+    navigate(`/destination/${destination.id}`);
   };
 
   const handleSearch = (value: string) => {
@@ -80,20 +81,7 @@ const HomePage: React.FC = () => {
     navigate("/");
   };
 
-  if (destinationsLoading || countriesLoading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <Spin size="large" />
-      </div>
-    );
-  }
+  if (destinationsLoading || countriesLoading) return <LoadingSpinner />;
 
   if (destinationsError || countriesError) {
     return (
@@ -128,17 +116,10 @@ const HomePage: React.FC = () => {
         >
           <h2>Destinations</h2>
         </Space>
-        <Row gutter={[16, 16]}>
-          {filteredDestinations &&
-            filteredDestinations.map((destination, index) => (
-              <Col key={index} xs={24} sm={12} md={8} lg={6}>
-                <DestinationCard
-                  destination={destination}
-                  onClick={() => handleDestinationClick(destination)}
-                />
-              </Col>
-            ))}
-        </Row>
+        <DestinationsList
+          destinations={filteredDestinations || []}
+          onDestinationClick={handleDestinationClick}
+        />
         <DestinationModal
           destination={selectedDestination}
           open={!!selectedDestination}
@@ -146,19 +127,7 @@ const HomePage: React.FC = () => {
           bodyStyle={{ overflow: "auto" }}
           onViewMoreClick={handleViewMoreClick}
         />
-        <Button
-          type="primary"
-          shape="circle"
-          icon={<PlusOutlined />}
-          size="large"
-          onClick={handleOpenAddDestinationModal}
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            zIndex: 1000,
-          }}
-        />
+        <AddDestinationButton onClick={handleOpenAddDestinationModal} />
         <AddDestination
           visible={isAddDestinationVisible}
           onClose={handleCloseAddDestinationModal}

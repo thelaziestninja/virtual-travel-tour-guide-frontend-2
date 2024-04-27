@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "antd";
-import { Destination, Feedback } from "../utils/types";
-import { useFeedbacks } from "../hooks/useFeedbacks";
+import { Destination, Feedback } from "../../../types";
+import { useFeedbacks } from "../../../hooks/useFeedbacks";
 
 type DestinationModalProps = {
   destination: Destination | null;
@@ -19,7 +19,7 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
   onViewMoreClick,
 }) => {
   const { data: feedbacks, isLoading } = useFeedbacks(
-    destination ? destination._id : undefined
+    destination ? destination.id : undefined
   );
 
   const latestFeedbacks = feedbacks
@@ -49,7 +49,7 @@ const DestinationModal: React.FC<DestinationModalProps> = ({
           <ul>
             {latestFeedbacks && latestFeedbacks.length > 0 ? (
               latestFeedbacks.map((feedback: Feedback) => (
-                <li key={feedback._id}>
+                <li key={feedback.id}>
                   {feedback.feedback_text} - {feedback.left_by} on{" "}
                   {new Date(feedback.feedback_date).toLocaleDateString()}
                 </li>

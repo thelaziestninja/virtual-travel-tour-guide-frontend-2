@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Destination } from "../utils/types";
+import { Destination } from "../types";
 
 export const useSearchFilter = (
   destinations: Destination[] | undefined,
@@ -16,9 +16,8 @@ export const useSearchFilter = (
 
     if (query) {
       const lowercasedQuery = query.toLowerCase();
-      newFilteredDestinations = newFilteredDestinations.filter(
-        (destination) =>
-          destination.name.toLowerCase().startsWith(lowercasedQuery)
+      newFilteredDestinations = newFilteredDestinations.filter((destination) =>
+        destination.name.toLowerCase().startsWith(lowercasedQuery)
       );
     }
 
@@ -33,7 +32,6 @@ export const useSearchFilter = (
 
   return { query, setQuery, filteredDestinations };
 };
-
 
 // React.useEffect(() => {
 //   const getData = setTimeout(() => {
