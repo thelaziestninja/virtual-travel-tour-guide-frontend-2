@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AutoComplete, Input } from "antd";
-import { Destination } from "../../types";
+import { Destination } from "../../../types";
 import { useNavigate } from "react-router-dom";
 
 type SearchBarProps = {

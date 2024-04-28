@@ -1,5 +1,5 @@
 import React from "react";
-import AppHeader from "../components/header/Header";
+import AppHeader from "../components/home/header/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDestinationById } from "../hooks/useDestinations";
 import { Layout, Space } from "antd";

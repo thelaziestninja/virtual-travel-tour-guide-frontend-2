@@ -1,8 +1,13 @@
-import React, { useEffect } from "react";
+import {
+  selectedCountryAtom,
+  selectedDestinationAtom,
+  destinationFormVisibleAtom,
+} from "../state/homeAtoms";
 import { useAtom } from "jotai";
 import { Layout, Space } from "antd";
 import { Destination } from "../types";
-import AppHeader from "../components/header/Header";
+import React, { useEffect } from "react";
+import AppHeader from "../components/home/header/Header";
 import { useCountries } from "../hooks/useCountries";
 import { useDestinations } from "../hooks/useDestinations";
 import { useSearchFilter } from "../hooks/useSearchFilter";
@@ -12,11 +17,6 @@ import { DestinationsList } from "../components/home/DestinationList";
 import AddDestination from "../components/home/addModal/AddDestination";
 import { AddDestinationButton } from "../components/home/AddDestinationButton";
 import DestinationModal from "../components/home/card/DestinationDetailsModal";
-import {
-  destinationFormVisibleAtom,
-  selectedCountryAtom,
-  selectedDestinationAtom,
-} from "../state/homeAtoms";
 
 const { Content } = Layout;
 
@@ -24,16 +24,11 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams({ q: "" });
 
-  // const [selectedDestination, setSelectedDestination] =
-  //   useState<Destination | null>(null);
   const [selectedDestination, setSelectedDestination] = useAtom(
     selectedDestinationAtom
   );
-  // const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useAtom(selectedCountryAtom);
 
-  // const [isAddDestinationVisible, setIsAddDestinationVisible] =
-  //   useState<boolean>(false);
   const [isAddDestinationVisible, setIsAddDestinationVisible] = useAtom(
     destinationFormVisibleAtom
   );
@@ -56,23 +51,6 @@ const HomePage: React.FC = () => {
     selectedCountry
   );
 
-  //-in the jsx, pass the setSelectedDestination function to the DestinationCard component
-  // const handleDestinationClick = (destination: Destination) => {
-  //   setSelectedDestination(destination);
-  // };
-
-  //  // const handleCloseModal = () => {
-  //   setSelectedDestination(null);
-  // };
-
-  // const handleOpenAddDestinationModal = () => {
-  //   setIsAddDestinationVisible(true);
-  // };
-
-  // const handleCloseAddDestinationModal = () => {
-  //   setIsAddDestinationVisible(false);
-  // };
-
   const handleViewMoreClick = (destination: Destination) => {
     navigate(`/destination/${destination.id}`);
   };
@@ -81,10 +59,6 @@ const HomePage: React.FC = () => {
     setQuery(value);
     setSearchParams(new URLSearchParams({ q: value }));
   };
-
-  // const handleCountrySelect = (country: string) => {
-  //   setSelectedCountry(country); // Update selectedCountry state when a country is selected
-  // };
 
   useEffect(() => {
     if (selectedCountry) {
