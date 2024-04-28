@@ -1,7 +1,7 @@
 import { Layout, Space } from "antd";
 import { Destination } from "../types";
 import React, { useState } from "react";
-import AppHeader from "../components/header/Header";
+import AppHeader from "../components/home/header/Header";
 import { useCountries } from "../hooks/useCountries";
 import { useSearchFilter } from "../hooks/useSearchFilter";
 import { useDestinations } from "../hooks/useDestinations";
