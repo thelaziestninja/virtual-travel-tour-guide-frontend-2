@@ -2,8 +2,9 @@ import React from "react";
 import { Button, Layout, Space } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import SearchBar from "./SearchBar";
-import { Destination } from "../../types
+
 import SortBy from "./SortBy";
+import { Destination } from "../../../types";
 
 const { Header } = Layout;
 
