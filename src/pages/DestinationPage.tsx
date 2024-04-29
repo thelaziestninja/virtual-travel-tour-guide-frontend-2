@@ -1,18 +1,17 @@
 import React from "react";
+import { Layout, Space } from "antd";
+import { observer } from "mobx-react-lite";
 import AppHeader from "../components/home/header/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { destinationStore } from "../stores/destinationStore";
-
-import { Layout, Space } from "antd";
-import DestinationDetails from "../components/destination/DestinationDetails";
+import { LoadingSpinner } from "../components/home/LoadingSpinner";
 import { FeedbackSection } from "../components/destination/FeedbackSection";
+import DestinationDetails from "../components/destination/DestinationDetails";
 
 const { Content } = Layout;
 
-const DestinationPage: React.FC = () => {
+const DestinationPage: React.FC = observer(() => {
   const { id = "default-id" } = useParams();
-
-  const { destination, isLoading, error } = destinationStore!;
 
   const navigate = useNavigate();
 
@@ -20,8 +19,10 @@ const DestinationPage: React.FC = () => {
     navigate("/");
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (destinationStore.isLoading) return <LoadingSpinner />;
+  if (destinationStore.error)
+    return <div>Error: {destinationStore.error.message}</div>;
+
   return (
     <Layout style={{ background: "none" }}>
       <AppHeader onHomeClick={handleHomeClick} />
@@ -37,9 +38,9 @@ const DestinationPage: React.FC = () => {
             marginTop: "20px",
           }}
         >
-          {destination && (
+          {destinationStore.destination && (
             <>
-              <DestinationDetails destination={destination} />
+              <DestinationDetails destination={destinationStore.destination} />
               <FeedbackSection destinationId={id} />
             </>
           )}
@@ -47,6 +48,6 @@ const DestinationPage: React.FC = () => {
       </Content>
     </Layout>
   );
-};
+});
 
 export default DestinationPage;

@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { ApiError, Destination } from "../types";
 import {
+  createDestination,
   getCountries,
   getDestinationById,
   getDestinations,
@@ -62,12 +63,36 @@ class DestinationStore {
     }
   };
 
-  fetchDestinationById = async (id: string): Promise<Destination> => {
+  fetchDestinationById = async (
+    id: string
+  ): Promise<Destination | undefined> => {
     this.isLoading = true;
     try {
       const response = await getDestinationById(id);
 
       return response.data;
+    } catch (error: unknown) {
+      if (isErrorWithMessage(error)) {
+        this.error = {
+          message: error.message,
+          statusCode: error.statusCode,
+        };
+      } else {
+        this.error = {
+          message: "An unknown error occurred",
+        };
+      }
+    } finally {
+      this.isLoading = false;
+    }
+  };
+
+  addDestination = async (destination: Destination): Promise<void> => {
+    this.isLoading = true;
+    try {
+      const response = await createDestination(destination);
+      this.destinations?.push(response.data);
+      this.error = null;
     } catch (error: unknown) {
       if (isErrorWithMessage(error)) {
         this.error = {

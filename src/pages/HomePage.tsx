@@ -1,8 +1,8 @@
 import { Layout, Space } from "antd";
+import { Destination } from "../types";
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import AppHeader from "../components/home/header/Header";
-import { Destination } from "../types";
 import { useSearchFilter } from "../hooks/useSearchFilter";
 import { destinationStore } from "../stores/destinationStore";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -27,41 +27,30 @@ const HomePage: React.FC = observer(() => {
   const [isAddDestinationVisible, setIsAddDestinationVisible] =
     useState<boolean>(false);
 
-  const {
-    destinations,
-    error: destinationsError,
-    isLoading: destinationsLoading,
-  } = destinationStore!;
-
-  const {
-    countries,
-    error: countriesError,
-    isLoading: countriesLoading,
-  } = destinationStore!;
-
   const { query, setQuery, filteredDestinations } = useSearchFilter(
-    destinations,
+    destinationStore.destinations || [],
     searchParams.get("q") || "",
     selectedCountry
   );
 
-  const handleDestinationClick = (destination: Destination) => {
-    setSelectedDestination(destination);
-  };
+  // const handleDestinationClick = (destination: Destination) => {
+  //   setSelectedDestination(destination);
+  // };
 
-  const handleCloseModal = () => {
-    setSelectedDestination(null);
-  };
+  // const handleCloseModal = () => {
+  //   setSelectedDestination(null);
+  // };
 
-  const handleOpenAddDestinationModal = () => {
-    setIsAddDestinationVisible(true);
-  };
+  // const handleOpenAddDestinationModal = () => {
+  //   setIsAddDestinationVisible(true);
+  // };
 
-  const handleCloseAddDestinationModal = () => {
-    setIsAddDestinationVisible(false);
-  };
+  // const handleCloseAddDestinationModal = () => {
+  //   setIsAddDestinationVisible(false);
+  // };
 
-  const handleViewMoreClick = (destination: Destination) => {
+  const handleViewMoreClick = async (destination: Destination) => {
+    await destinationStore.fetchDestinationById(destination.id);
     navigate(`/destination/${destination.id}`);
   };
 
@@ -81,22 +70,14 @@ const HomePage: React.FC = observer(() => {
     navigate("/");
   };
 
-  if (destinationsLoading || countriesLoading) return <LoadingSpinner />;
-
-  if (destinationsError || countriesError) {
-    return (
-      <div>
-        An error occurred:{" "}
-        {destinationsError?.message || countriesError?.message}
-      </div>
-    );
-  }
+  if (destinationStore.isLoading) return <LoadingSpinner />;
+  if (destinationStore.error) return <div>Error loading products</div>;
 
   return (
     <Layout style={{ background: "none" }}>
       <AppHeader
-        countries={countries || []}
-        destinations={destinations || []}
+        countries={destinationStore.countries || []}
+        destinations={destinationStore.destinations || []}
         selectedCountry={selectedCountry}
         onCountrySelect={handleCountrySelect}
         onHomeClick={navigateHome}
@@ -118,19 +99,23 @@ const HomePage: React.FC = observer(() => {
         </Space>
         <DestinationsList
           destinations={filteredDestinations || []}
-          onDestinationClick={handleDestinationClick}
+          onDestinationClick={(destination) =>
+            setSelectedDestination(destination)
+          }
         />
         <DestinationModal
           destination={selectedDestination}
           open={!!selectedDestination}
-          onClose={handleCloseModal}
+          onClose={() => setSelectedDestination(null)}
           bodyStyle={{ overflow: "auto" }}
           onViewMoreClick={handleViewMoreClick}
         />
-        <AddDestinationButton onClick={handleOpenAddDestinationModal} />
+        <AddDestinationButton
+          onClick={() => setIsAddDestinationVisible(true)}
+        />
         <AddDestination
           visible={isAddDestinationVisible}
-          onClose={handleCloseAddDestinationModal}
+          onClose={() => setIsAddDestinationVisible(false)}
         />
       </Content>
     </Layout>

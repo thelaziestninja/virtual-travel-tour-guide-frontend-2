@@ -30,3 +30,10 @@ export interface ApiError {
   message: string;
   statusCode?: number;
 }
+
+export interface AxiosError {
+  response?: {
+    status: number;
+    data: string;
+  };
+}
