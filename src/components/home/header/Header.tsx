@@ -24,7 +24,6 @@ const AppHeader: React.FC<AppHeaderProps> = ({
   onHomeClick,
   onCountrySelect = () => {},
   onSearch,
-  query = "",
 }) => {
   const navigateHome = () => {
     onHomeClick();
@@ -64,7 +63,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
             <SearchBar
               destinations={destinations}
               onSearch={onSearch}
-              value={query}
+              // value={query}
             />
           ) : null}
         </Space>

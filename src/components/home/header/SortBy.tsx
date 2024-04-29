@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { useAtom } from "jotai";
+import { selectedCountryAtom } from "../../../state/homeAtoms";
 
 type SortByProps = {
   countries: string[];
@@ -10,9 +12,11 @@ type SortByProps = {
 
 const SortBy: React.FC<SortByProps> = ({
   countries,
-  selectedCountry,
-  onCountrySelect,
+  // selectedCountry,
+  // onCountrySelect,
 }) => {
+  const [selectedCountry, setSelectedCountry] = useAtom(selectedCountryAtom);
+
   if (!countries || countries.length === 0) {
     return null;
   }
@@ -20,7 +24,7 @@ const SortBy: React.FC<SortByProps> = ({
   return (
     <Dropdown
       overlay={
-        <Menu onClick={(e) => onCountrySelect(e.key.toString())}>
+        <Menu onClick={(e) => setSelectedCountry(e.key.toString())}>
           {countries.map((country) => (
             <Menu.Item key={country}>{country}</Menu.Item>
           ))}

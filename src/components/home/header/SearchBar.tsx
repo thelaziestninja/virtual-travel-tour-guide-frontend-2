@@ -1,41 +1,32 @@
+import { useAtom } from "jotai";
 import React, { useState } from "react";
 import { AutoComplete, Input } from "antd";
-
-import { useNavigate } from "react-router-dom";
 import { Destination } from "../../../types";
+import { useNavigate } from "react-router-dom";
+import { searchTextAtom } from "../../../state/uiAtoms";
 
 type SearchBarProps = {
   destinations: Destination[];
   onSearch: (value: string) => void;
-  value: string;
+  // value: string;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({
   destinations,
   onSearch,
-  value,
+  // value,
 }) => {
+  const [searchOptions, setSearchOptions] = useState<{ value: string }[]>([]);
+  const [searchText, setSearchText] = useAtom(searchTextAtom);
   const navigateToDestination = useNavigate();
-  const [searchOptions, setSearchOptions] = useState<string[]>([]);
 
   const handleSearch = (value: string) => {
-    onSearch(value);
-    console.log("Handling search with value:", value);
-
-    if (value) {
-      const newOptions = destinations
-        .filter(
-          (destination) =>
-            destination.name.toLowerCase().includes(value.toLowerCase()) ||
-            destination.country.toLowerCase().includes(value.toLowerCase())
-        )
-        .map((destination) => destination.name);
-      setSearchOptions(newOptions);
-
-      console.log("searchOptions after update:", searchOptions);
-    } else {
-      setSearchOptions([]);
-    }
+    onSearch(value); // This should update the application's state and URL params
+    setSearchText(value); // Update the local state for the search text
+    const filteredOptions = destinations
+      .filter((dest) => dest.name.toLowerCase().includes(value.toLowerCase()))
+      .map((dest) => ({ value: dest.name }));
+    setSearchOptions(filteredOptions);
   };
 
   const onSelect = (value: string) => {
@@ -43,6 +34,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       (destination) => destination.name.toLowerCase() === value.toLowerCase()
     );
     if (selectedDestination) {
+      console.log("Navigating to:", `/destination/${selectedDestination.id}`);
       navigateToDestination(`/destination/${selectedDestination.id}`);
     }
     setSearchOptions([]);
@@ -50,14 +42,14 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <AutoComplete
-      value={value}
-      options={searchOptions.map((option) => ({ value: option }))}
+      value={searchText}
+      options={searchOptions}
       onSelect={onSelect}
       onSearch={handleSearch}
       style={{ width: 200 }}
-      filterOption={(inputValue, option) =>
+      filterOption={(inputValue, option: { value: string } | undefined) =>
         option
-          ? option.value.toLowerCase().startsWith(inputValue.toLowerCase())
+          ? option.value.toLowerCase().includes(inputValue.toLowerCase())
           : false
       }
     >
