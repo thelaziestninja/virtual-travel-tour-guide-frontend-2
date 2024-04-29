@@ -21,11 +21,14 @@ class DestinationStore {
 
   fetchDestinations = async (): Promise<void> => {
     this.isLoading = true;
+    console.log("fetching destinations...");
     try {
       const response = await getDestinations();
       this.destinations = response.data;
       this.error = null;
+      console.log("Destinations fetched successfully", response.data);
     } catch (error: unknown) {
+      console.error("Error fetching destinations", error);
       if (isErrorWithMessage(error)) {
         this.error = {
           message: error.message,
