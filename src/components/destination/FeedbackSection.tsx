@@ -14,21 +14,11 @@ import { Card, Input, Button, Checkbox, List, message } from "antd";
 export const FeedbackSection: React.FC<{ destinationId: string }> = ({
   destinationId,
 }) => {
-  // const [newFeedback, setNewFeedback] = useState("");
   const [newFeedback, setNewFeedback] = useAtom(newFeedbackTextAtom);
-  // const [isAnonymous, setIsAnonymous] = React.useState(false);
   const [isAnonymous, setIsAnonymous] = useAtom(isAnonymousAtom);
-  // const [leftBy, setLeftBy] = useState("");
   const [leftBy, setLeftBy] = useAtom(leftByAtom);
 
   const [feedbacks, setFeedbacks] = useAtom(feedbacksAtom);
-
-  // const {
-  //   data: feedbacks,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useFeedbacks(destinationId);
 
   const createFeedbackMutation = useCreateFeedback(destinationId);
 
@@ -69,10 +59,6 @@ export const FeedbackSection: React.FC<{ destinationId: string }> = ({
       message.error("Error submitting feedback");
     }
   };
-
-  // if (isLoading) return <p>Loading feedback...</p>;
-  // if (isError) return <p>Error: {error.message}</p>;
-
   return (
     <Card
       style={{ width: "200%", maxWidth: "600px", marginTop: "20px" }}
