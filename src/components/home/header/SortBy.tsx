@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useAtom } from "jotai";
-import { selectedCountryAtom } from "../../../state/homeAtoms";
+import { selectedCountryAtom } from "../../../state/homePageAtoms";
 
 type SortByProps = {
   countries: string[];

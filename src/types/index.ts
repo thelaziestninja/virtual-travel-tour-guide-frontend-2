@@ -1,4 +1,4 @@
-type ObjectId = string;
+export type ObjectId = string;
 
 export interface Destination {
   id: string;

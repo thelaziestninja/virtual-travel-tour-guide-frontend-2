@@ -1,20 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
+import { useAtom } from "jotai";
+import { v4 as uuidv4 } from "uuid";
+import { Feedback } from "../../types";
+import {
+  feedbacksAtom,
+  isAnonymousAtom,
+  leftByAtom,
+  newFeedbackTextAtom,
+} from "../../state/destinationPageAtoms";
+import { useCreateFeedback } from "../../hooks/useFeedbacks";
 import { Card, Input, Button, Checkbox, List, message } from "antd";
-import { useCreateFeedback, useFeedbacks } from "../../hooks/useFeedbacks";
 
 export const FeedbackSection: React.FC<{ destinationId: string }> = ({
   destinationId,
 }) => {
-  const [newFeedback, setNewFeedback] = useState("");
-  const [isAnonymous, setIsAnonymous] = React.useState(false);
-  const [leftBy, setLeftBy] = useState("");
+  // const [newFeedback, setNewFeedback] = useState("");
+  const [newFeedback, setNewFeedback] = useAtom(newFeedbackTextAtom);
+  // const [isAnonymous, setIsAnonymous] = React.useState(false);
+  const [isAnonymous, setIsAnonymous] = useAtom(isAnonymousAtom);
+  // const [leftBy, setLeftBy] = useState("");
+  const [leftBy, setLeftBy] = useAtom(leftByAtom);
 
-  const {
-    data: feedbacks,
-    isLoading,
-    isError,
-    error,
-  } = useFeedbacks(destinationId);
+  const [feedbacks, setFeedbacks] = useAtom(feedbacksAtom);
+
+  // const {
+  //   data: feedbacks,
+  //   isLoading,
+  //   isError,
+  //   error,
+  // } = useFeedbacks(destinationId);
 
   const createFeedbackMutation = useCreateFeedback(destinationId);
 
@@ -34,17 +48,30 @@ export const FeedbackSection: React.FC<{ destinationId: string }> = ({
       await createFeedbackMutation.mutateAsync({
         feedback_text: newFeedback,
         left_by: isAnonymous ? "Anonymous" : leftBy,
+        feedback_date: new Date(),
       });
+
+      // Update local feedback list atom
+      const newFeedbackEntry: Feedback = {
+        id: uuidv4(), // Placeholder for new ID, normally returned by the server
+        destinationid: destinationId,
+        feedback_text: newFeedback,
+        left_by: isAnonymous ? "Anonymous" : leftBy,
+        feedback_date: new Date(),
+      };
+      setFeedbacks([...feedbacks, newFeedbackEntry]);
+
       setNewFeedback("");
       setLeftBy("");
+      message.success("Feedback submitted successfully");
     } catch (error) {
       alert("Error submitting feedback");
       message.error("Error submitting feedback");
     }
   };
 
-  if (isLoading) return <p>Loading feedback...</p>;
-  if (isError) return <p>Error: {error.message}</p>;
+  // if (isLoading) return <p>Loading feedback...</p>;
+  // if (isError) return <p>Error: {error.message}</p>;
 
   return (
     <Card

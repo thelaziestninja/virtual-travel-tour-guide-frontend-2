@@ -2,11 +2,11 @@ import {
   selectedCountryAtom,
   selectedDestinationAtom,
   destinationFormVisibleAtom,
-} from "../state/homeAtoms";
+} from "../state/homePageAtoms";
+import React from "react";
 import { useAtom } from "jotai";
 import { Layout, Space } from "antd";
 import { Destination } from "../types";
-import React, { useEffect } from "react";
 import { useCountries } from "../hooks/useCountries";
 import AppHeader from "../components/home/header/Header";
 import { useDestinations } from "../hooks/useDestinations";
@@ -59,12 +59,6 @@ const HomePage: React.FC = () => {
     setQuery(value);
     setSearchParams(new URLSearchParams({ q: value }));
   };
-
-  useEffect(() => {
-    if (selectedCountry) {
-      console.log("selectedCountry", selectedCountry);
-    }
-  }, [selectedCountry]);
 
   const navigateHome = () => {
     setSelectedCountry(null);

@@ -1,29 +1,27 @@
 import React from "react";
+import { Layout, Space } from "antd";
 import AppHeader from "../components/home/header/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDestinationById } from "../hooks/useDestinations";
-import { Layout, Space } from "antd";
-import DestinationDetails from "../components/destination/DestinationDetails";
 import { FeedbackSection } from "../components/destination/FeedbackSection";
+import DestinationDetails from "../components/destination/DestinationDetails";
 
 const { Content } = Layout;
 
 const DestinationPage: React.FC = () => {
   const { id = "default-id" } = useParams();
-
   const { data: destination, isLoading, error } = useDestinationById(id);
-
   const navigate = useNavigate();
-
-  const handleHomeClick = () => {
-    navigate("/");
-  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   return (
     <Layout style={{ background: "none" }}>
-      <AppHeader onHomeClick={handleHomeClick} />
+      <AppHeader
+        onHomeClick={() => {
+          navigate("/");
+        }}
+      />
       <Content style={{ padding: "0 650px" }}>
         <Space
           direction="horizontal"

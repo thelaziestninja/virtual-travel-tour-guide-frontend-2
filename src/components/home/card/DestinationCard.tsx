@@ -1,7 +1,7 @@
 import React from "react";
 import { Destination } from "../../../types";
 import { useAtom } from "jotai";
-import { selectedDestinationAtom } from "../../../state/homeAtoms";
+import { selectedDestinationAtom } from "../../../state/homePageAtoms";
 
 type DestinationCardProps = {
   destination: Destination;
