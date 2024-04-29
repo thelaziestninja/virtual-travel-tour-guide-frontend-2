@@ -1,7 +1,7 @@
-import { Col, Row } from "antd";
 import React from "react";
-import DestinationCard from "./card/DestinationCard";
+import { Col, Row } from "antd";
 import { Destination } from "../../types";
+import DestinationCard from "./card/DestinationCard";
 
 interface DestinationsListProps {
   destinations: Destination[];

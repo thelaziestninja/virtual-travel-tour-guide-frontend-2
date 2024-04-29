@@ -1,10 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import "./index.css";
+import React from "react";
+import App from "./App.tsx";
+import { Provider } from "mobx-react";
+import ReactDOM from "react-dom/client";
+import { destinationStore } from "./stores/destinationStore.ts";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+    <Provider destinationStore={destinationStore}>
+      <App />
+    </Provider>
+  </React.StrictMode>
+);

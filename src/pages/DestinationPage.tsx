@@ -1,7 +1,8 @@
 import React from "react";
 import AppHeader from "../components/home/header/Header";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDestinationById } from "../hooks/useDestinations";
+import { destinationStore } from "../stores/destinationStore";
+
 import { Layout, Space } from "antd";
 import DestinationDetails from "../components/destination/DestinationDetails";
 import { FeedbackSection } from "../components/destination/FeedbackSection";
@@ -11,7 +12,7 @@ const { Content } = Layout;
 const DestinationPage: React.FC = () => {
   const { id = "default-id" } = useParams();
 
-  const { data: destination, isLoading, error } = useDestinationById(id);
+  const { destination, isLoading, error } = destinationStore!;
 
   const navigate = useNavigate();
 

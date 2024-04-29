@@ -32,15 +32,3 @@ export const useSearchFilter = (
 
   return { query, setQuery, filteredDestinations };
 };
-
-// React.useEffect(() => {
-//   const getData = setTimeout(() => {
-//     axios
-//     .get(`https://api.postalpincode.in/pincode/${pinCode}`)
-//     .then((response) => {
-//       console.log(response.data[0]);
-//     });
-//   }, 2000)
-
-//   return () => clearTimeout(getData)
-// }, [pinCode])

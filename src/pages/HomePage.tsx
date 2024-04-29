@@ -1,20 +1,20 @@
 import { Layout, Space } from "antd";
-import { Destination } from "../types";
 import React, { useState } from "react";
+import { observer } from "mobx-react-lite";
 import AppHeader from "../components/home/header/Header";
-import { useCountries } from "../hooks/useCountries";
+import { Destination } from "../types";
 import { useSearchFilter } from "../hooks/useSearchFilter";
-import { useDestinations } from "../hooks/useDestinations";
+import { destinationStore } from "../stores/destinationStore";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import AddDestination from "../components/home/addModal/AddDestination";
-import DestinationModal from "../components/home/card/DestinationDetailsModal";
 import { LoadingSpinner } from "../components/home/LoadingSpinner";
 import { DestinationsList } from "../components/home/DestinationList";
+import AddDestination from "../components/home/addModal/AddDestination";
 import { AddDestinationButton } from "../components/home/AddDestinationButton";
+import DestinationModal from "../components/home/card/DestinationDetailsModal";
 
 const { Content } = Layout;
 
-const HomePage: React.FC = () => {
+const HomePage: React.FC = observer(() => {
   const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams({ q: "" });
@@ -28,16 +28,16 @@ const HomePage: React.FC = () => {
     useState<boolean>(false);
 
   const {
-    data: destinations,
+    destinations,
     error: destinationsError,
     isLoading: destinationsLoading,
-  } = useDestinations();
+  } = destinationStore!;
 
   const {
-    data: countries,
+    countries,
     error: countriesError,
     isLoading: countriesLoading,
-  } = useCountries();
+  } = destinationStore!;
 
   const { query, setQuery, filteredDestinations } = useSearchFilter(
     destinations,
@@ -135,6 +135,6 @@ const HomePage: React.FC = () => {
       </Content>
     </Layout>
   );
-};
+});
 
 export default HomePage;

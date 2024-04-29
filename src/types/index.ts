@@ -1,5 +1,12 @@
 type ObjectId = string;
 
+export interface IDestinationStore {
+  destinations: Destination[];
+  isLoading: boolean;
+  error: ApiError | null;
+  fetchDestinations: () => Promise<void>;
+}
+
 export interface Destination {
   id: string;
   name: string;
@@ -17,4 +24,9 @@ export interface Feedback {
   feedback_text: string;
   left_by: string;
   feedback_date: Date;
+}
+
+export interface ApiError {
+  message: string;
+  statusCode?: number;
 }

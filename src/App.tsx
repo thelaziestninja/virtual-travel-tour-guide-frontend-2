@@ -1,8 +1,8 @@
+import "./App.css";
+import HomePage from "./pages/HomePage";
+import DestinationPage from "./pages/DestinationPage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import "./App.css";
-import DestinationPage from "./pages/DestinationPage";
 
 const queryClient = new QueryClient();
 
