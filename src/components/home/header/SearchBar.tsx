@@ -8,14 +8,9 @@ import { searchTextAtom } from "../../../state/uiAtoms";
 type SearchBarProps = {
   destinations: Destination[];
   onSearch: (value: string) => void;
-  // value: string;
 };
 
-const SearchBar: React.FC<SearchBarProps> = ({
-  destinations,
-  onSearch,
-  // value,
-}) => {
+const SearchBar: React.FC<SearchBarProps> = ({ destinations, onSearch }) => {
   const [searchOptions, setSearchOptions] = useState<{ value: string }[]>([]);
   const [searchText, setSearchText] = useAtom(searchTextAtom);
   const navigateToDestination = useNavigate();

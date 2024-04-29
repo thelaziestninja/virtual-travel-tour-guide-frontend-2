@@ -10,11 +10,7 @@ type SortByProps = {
   onCountrySelect: (country: string) => void;
 };
 
-const SortBy: React.FC<SortByProps> = ({
-  countries,
-  // selectedCountry,
-  // onCountrySelect,
-}) => {
+const SortBy: React.FC<SortByProps> = ({ countries }) => {
   const [selectedCountry, setSelectedCountry] = useAtom(selectedCountryAtom);
 
   if (!countries || countries.length === 0) {

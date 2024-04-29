@@ -56,11 +56,8 @@ const HomePage: React.FC = () => {
   };
 
   const handleSearch = (value: string) => {
-    console.log("Before setting query:", value);
     setQuery(value);
-    console.log("Set Search value:", value);
     setSearchParams(new URLSearchParams({ q: value }));
-    console.log(" Set Search params:", searchParams);
   };
 
   useEffect(() => {

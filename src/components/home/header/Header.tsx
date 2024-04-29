@@ -1,10 +1,9 @@
 import React from "react";
-import { Button, Layout, Space } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
-import SearchBar from "./SearchBar";
-
 import SortBy from "./SortBy";
+import SearchBar from "./SearchBar";
+import { Button, Layout, Space } from "antd";
 import { Destination } from "../../../types";
+import { HomeOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 
@@ -60,11 +59,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
             selectedCountry={selectedCountry}
           />
           {onSearch ? ( // Checking specifically for onSearch prop
-            <SearchBar
-              destinations={destinations}
-              onSearch={onSearch}
-              // value={query}
-            />
+            <SearchBar destinations={destinations} onSearch={onSearch} />
           ) : null}
         </Space>
       </div>
