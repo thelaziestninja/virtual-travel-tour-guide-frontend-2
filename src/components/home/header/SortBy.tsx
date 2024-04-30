@@ -28,11 +28,7 @@ const SortBy: React.FC<SortByProps> = ({
       }
     >
       <Button>
-        {selectedCountry ? selectedCountry : "Country"}{" "}
-        <DownOutlined
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-        />
+        {selectedCountry ? selectedCountry : "Country"} <DownOutlined />
       </Button>
     </Dropdown>
   );

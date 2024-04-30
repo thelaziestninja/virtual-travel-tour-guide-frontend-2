@@ -17,6 +17,8 @@ class DestinationStore {
 
   constructor() {
     makeAutoObservable(this);
+    this.fetchDestinations();
+    this.fetchCountries();
   }
 
   fetchDestinations = async (): Promise<void> => {

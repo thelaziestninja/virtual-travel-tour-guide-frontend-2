@@ -15,7 +15,8 @@ type DestinationModalProps = {
 const DestinationModal: React.FC<DestinationModalProps> = observer(
   ({ destination, open, onClose, bodyStyle, onViewMoreClick }) => {
     const latestFeedbacks = feedbackStore.feedbacks
-      ?.sort(
+      ?.slice()
+      .sort(
         (a, b) =>
           new Date(b.feedback_date).getTime() -
           new Date(a.feedback_date).getTime()

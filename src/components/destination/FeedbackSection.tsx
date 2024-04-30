@@ -12,13 +12,11 @@ export const FeedbackSection: React.FC<{ destinationId: string }> = observer(
     const sortedFeedbacks = feedbackStore.feedbacks
       ?.slice()
       .sort(
-        (
-          a: { feedback_date: string | number | Date },
-          b: { feedback_date: string | number | Date }
-        ) =>
+        (a, b) =>
           new Date(b.feedback_date).getTime() -
           new Date(a.feedback_date).getTime()
-      );
+      ) // Sort the copy.
+      .slice(0, 3); // Take the first three items from the sorted array.
 
     const handleSubmitFeedback = async () => {
       try {

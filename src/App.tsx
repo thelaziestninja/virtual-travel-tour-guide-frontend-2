@@ -4,6 +4,7 @@ import DestinationPage from "./pages/DestinationPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
+  console.log("App component rendered");
   return (
     <Router>
       <Routes>

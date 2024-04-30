@@ -1,7 +1,7 @@
 import { Layout, Space } from "antd";
 import { Destination } from "../types";
+import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
 import AppHeader from "../components/home/header/Header";
 import { useSearchFilter } from "../hooks/useSearchFilter";
 import { destinationStore } from "../stores/destinationStore";
@@ -15,7 +15,6 @@ import DestinationModal from "../components/home/card/DestinationDetailsModal";
 const { Content } = Layout;
 
 const HomePage: React.FC = observer(() => {
-  console.log("Instantiating Destination Store", destinationStore.destinations);
   const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams({ q: "" });
@@ -33,11 +32,6 @@ const HomePage: React.FC = observer(() => {
     searchParams.get("q") || "",
     selectedCountry
   );
-
-  useEffect(() => {
-    destinationStore.fetchDestinations();
-    destinationStore.fetchCountries();
-  }, []);
 
   const handleViewMoreClick = async (destination: Destination) => {
     await destinationStore.fetchDestinationById(destination.id);

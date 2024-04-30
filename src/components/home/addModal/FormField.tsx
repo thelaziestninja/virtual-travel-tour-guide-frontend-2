@@ -36,23 +36,14 @@ const FormField: React.FC<FormFieldProps> = ({
                     form.setFieldsValue({ [name]: newValues });
                   }}
                 />
-                <MinusCircleOutlined
-                  onClick={() => remove(field.name)}
-                  onPointerEnterCapture={undefined}
-                  onPointerLeaveCapture={undefined}
-                />
+                <MinusCircleOutlined onClick={() => remove(field.name)} />
               </Form.Item>
             ))}
             <Button
               type="dashed"
               onClick={() => add()}
               block
-              icon={
-                <PlusOutlined
-                  onPointerEnterCapture={undefined}
-                  onPointerLeaveCapture={undefined}
-                />
-              }
+              icon={<PlusOutlined />}
             >
               Add {label}
             </Button>

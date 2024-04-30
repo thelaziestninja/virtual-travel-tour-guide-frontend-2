@@ -41,16 +41,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
       }}
     >
       <div style={{ flex: "none" }}>
-        <Button
-          type="primary"
-          icon={
-            <HomeOutlined
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-            />
-          }
-          onClick={navigateHome}
-        />
+        <Button type="primary" icon={<HomeOutlined />} onClick={navigateHome} />
       </div>
       <div style={{ flex: "none", display: "flex", alignItems: "center" }}>
         <Space size={16}>

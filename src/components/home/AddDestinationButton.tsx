@@ -12,12 +12,7 @@ export const AddDestinationButton: React.FC<AddDestinationButtonProps> = ({
   <Button
     type="primary"
     shape="circle"
-    icon={
-      <PlusOutlined
-        onPointerEnterCapture={undefined}
-        onPointerLeaveCapture={undefined}
-      />
-    }
+    icon={<PlusOutlined />}
     size="large"
     onClick={onClick}
     style={{
