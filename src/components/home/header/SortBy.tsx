@@ -19,7 +19,7 @@ const SortBy: React.FC<SortByProps> = ({
 
   return (
     <Dropdown
-      overlay={
+      menu={
         <Menu onClick={(e) => onCountrySelect(e.key.toString())}>
           {countries.map((country) => (
             <Menu.Item key={country}>{country}</Menu.Item>
